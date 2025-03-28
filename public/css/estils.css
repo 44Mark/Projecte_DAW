@@ -1,0 +1,23 @@
+@media (min-width: 768px) {
+  nav.col-md-2 {
+    min-height: 100vh;
+  }
+}
+
+main h1 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.imagen-pequena {
+  max-width: 800px;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.custom-margin-top {
+  margin-top: 80px !important;
+}
+

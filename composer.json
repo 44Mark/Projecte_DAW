@@ -1,0 +1,17 @@
+{
+    "name": "marka/daw",
+    "autoload": {
+        "psr-4": {
+            "Marka\\Daw\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MarkAlvarezCaballero",
+            "email": "markalvarezcaballero@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
