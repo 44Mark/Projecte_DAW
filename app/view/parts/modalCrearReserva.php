@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="/DAW/public/css/modal.css">
+
+<div class="modal fade" id="crearReservaModal" tabindex="-1" aria-labelledby="crearReservaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form id="crearReservaForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="crearReservaModalLabel">Crear Nova Reserva</h5>
+          <div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="profe" class="form-label">Professor</label>
+                <select class="form-select" id="profe" name="profe" required>
+                  <option value="" disabled selected>---</option>
+                  <?php foreach($professorsCrearReserva as $profe): ?>
+                    <option value="<?= htmlspecialchars($profe['profe'], ENT_QUOTES, 'UTF-8'); ?>">
+                      <?= htmlspecialchars($profe['profe'], ENT_QUOTES, 'UTF-8'); ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="grup" class="form-label">Grup</label>
+                <select class="form-select" id="grup" name="grup" required>
+                  <option value="" disabled selected>---</option>
+                  <?php foreach($grupCrearReserva as $grup): ?>
+                    <option value="<?= htmlspecialchars($grup['grup'], ENT_QUOTES, 'UTF-8'); ?>">
+                      <?= htmlspecialchars($grup['grup'], ENT_QUOTES, 'UTF-8'); ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="aula" class="form-label">Aula</label>
+                <select class="form-select" id="aula" name="aula" required>
+                  <option value="" disabled selected>---</option>
+                  <?php foreach($aulasCrearReserva as $aula): ?>
+                    <option value="<?= htmlspecialchars($aula['nom'], ENT_QUOTES, 'UTF-8'); ?>">
+                      <?= htmlspecialchars($aula['nom'], ENT_QUOTES, 'UTF-8'); ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="data" class="form-label">Data</label>
+                <input type="date" class="form-control" name="data" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-3">
+                <label for="ini" class="form-label">Hora d'inici</label>
+                <input type="time" class="form-control" name="ini" required>
+              </div>
+              <div class="col-md-3">
+                <label for="fin" class="form-label">Hora fi</label>
+                <input type="time" class="form-control" name="fin" required>
+              </div>
+              <div class="col-md-3">
+                <label for="repetir" class="form-label">Repetir
+                  <span class="info-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Si vols repetir mes cops aquesta reserva, selecciona el numero de setmanes o mesos.">ℹ️</span>
+                </label>
+                <select class="form-select" id="repetir" name="repetir">
+                  <option value="" disabled selected>---</option>
+                  <option value="semanal">Setmanalment</option>
+                  <option value="mensual">Mensualment</option>
+                </select>
+              </div>
+              <div class="col-md-3" id="repeticion-container" style="display: none;">
+                <label for="num_repeticions" class="form-label" id="repeticion-label">Número de repeticions</label>
+                <input type="number" class="form-control " name="num_repeticions" id="num_repeticions" min="1">
+                <div class="form-text" id="repeticion-text"></div>
+              </div>
+            <div class="modal-footer mt-4">
+          <button type="submit" class="btn btn-primary">Guardar Reserva</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Script per la logica d'afegir mes setmanes o mesos a la reserva -->
+<script src="./js/repetirReserva.js"></script>

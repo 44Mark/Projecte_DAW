@@ -54,7 +54,10 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
   </div>
   
   <!-- Modal per a veure l'informació d'una reserva d'aula -->
-  <?php include __DIR__ . '../../app/view/parts/modal.php'; ?>
+  <?php include __DIR__ . '../../app/view/parts/modalInformacioReserva.php'; ?>
+
+  <!-- Modal para crear una nueva reserva -->
+  <?php include __DIR__ . '../../app/view/parts/modalCrearReserva.php'; ?>
 
 </body>
 </html>

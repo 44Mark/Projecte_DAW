@@ -1,0 +1,21 @@
+/* Center the 'X' button vertically and horizontally */
+.date-row .col-md-1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-top: 2.2rem;
+}
+
+.date-row .remove-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style for the info icon next to the 'Repetir' label */
+.info-icon {
+  color: blue;
+  font-weight: bold;
+  cursor: pointer;
+}

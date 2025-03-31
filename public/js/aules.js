@@ -1,8 +1,8 @@
-// aules.js
 document.addEventListener('DOMContentLoaded', function() {
-  let aulasPreferidas = JSON.parse(localStorage.getItem('aulasPreferidas')) || [];
+  // 1. Cargar el array de aulas preferidas desde localStorage
+  let aulasPreferides = JSON.parse(localStorage.getItem('aulasPreferides')) || [];
 
-  // Definimos la función en window
+  // 2. Definir la función de filtrado en window para que la llame fullcalendar.js
   window.filterCalendarEvents = function() {
     const calendar = window.myCalendar;
     if (!calendar) return;
@@ -13,26 +13,26 @@ document.addEventListener('DOMContentLoaded', function() {
       const aulaEvento = evt.extendedProps.aula || '';
       const aulaNormalizada = aulaEvento.replace(/^Aula\s+/i, '');
 
-      if (aulasPreferidas.length === 0) {
-        // Ninguna aula seleccionada => ocultar todos los eventos
-        evt.setProp('display', 'none');
-      } else {
-        // Mostrar solo si está en aulasPreferidas
-        if (aulasPreferidas.includes(aulaNormalizada)) {
-          evt.setProp('display', 'auto');
-        } else {
-          evt.setProp('display', 'none');
-        }
+      // Determinar el display deseado
+      let desiredDisplay = 'none';
+      if (aulasPreferides.length > 0 && aulasPreferides.includes(aulaNormalizada)) {
+        desiredDisplay = 'auto';
+      }
+
+      // Opción B: solo cambiar si difiere del actual
+      if (evt.display !== desiredDisplay) {
+        evt.setProp('display', desiredDisplay);
       }
     });
   };
 
-  // Inicializar iconos de ojo
+  // 3. Inicializar los iconos de ojo en la lista de aulas
   document.querySelectorAll('.toggle-icon').forEach(function(icon) {
     const aulaId = icon.getAttribute('data-aula');
     const aulaNormalizada = aulaId.replace(/^Aula\s+/i, '');
 
-    if (aulasPreferidas.includes(aulaNormalizada)) {
+    // Ajustar el icono según si está en aulasPreferides
+    if (aulasPreferides.includes(aulaNormalizada)) {
       icon.classList.remove('bi-eye-slash');
       icon.classList.add('bi-eye');
       icon.dataset.state = 'open';
@@ -44,40 +44,30 @@ document.addEventListener('DOMContentLoaded', function() {
       icon.parentElement.classList.remove('visible');
     }
 
+    // Listener para alternar el estado
     icon.addEventListener('click', function() {
       if (icon.dataset.state === 'closed') {
         icon.classList.remove('bi-eye-slash');
         icon.classList.add('bi-eye');
         icon.dataset.state = 'open';
         icon.parentElement.classList.add('visible');
-
-        if (!aulasPreferidas.includes(aulaNormalizada)) {
-          aulasPreferidas.push(aulaNormalizada);
+        if (!aulasPreferides.includes(aulaNormalizada)) {
+          aulasPreferides.push(aulaNormalizada);
         }
       } else {
         icon.classList.remove('bi-eye');
         icon.classList.add('bi-eye-slash');
         icon.dataset.state = 'closed';
         icon.parentElement.classList.remove('visible');
-
-        aulasPreferidas = aulasPreferidas.filter(function(id) {
-          return id !== aulaNormalizada;
-        });
+        aulasPreferides = aulasPreferides.filter(id => id !== aulaNormalizada);
       }
+      localStorage.setItem('aulasPreferides', JSON.stringify(aulasPreferides));
 
-      localStorage.setItem('aulasPreferidas', JSON.stringify(aulasPreferidas));
-
-      // Llamar a filterCalendarEvents (ahora en window)
-      if (window.filterCalendarEvents) {
-        window.filterCalendarEvents();
-      }
+      // Llamar a la función de filtrado
+      window.filterCalendarEvents();
     });
   });
 
-  // Si quieres que, al cargar la página, se filtre si ya había aulas guardadas
-  // (lo ideal es esperar a que FullCalendar haya cargado, 
-  //  pero si quieres forzar ya mismo, lo puedes llamar):
-  if (window.filterCalendarEvents) {
-    window.filterCalendarEvents();
-  }
+  // 4. Al cargar la página, aplicar el filtro inicial
+  window.filterCalendarEvents();
 });

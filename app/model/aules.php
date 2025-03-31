@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/connexio.php';
 
-// Obtener únicamente las aulas donde 'mostrar' es 1
+// Obtener únicamente las aulas actives.
 function agafarAules() {
     global $connexio;
     $stmt = $connexio->prepare("SELECT nom FROM kw_aules WHERE mostrar = 1");
@@ -9,10 +9,9 @@ function agafarAules() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Función para obtener las reservas y transformarlas a JSON para FullCalendar
+// Funció per obtenir les reserves i transformar-les a JSON per a FullCalendar.
 function obtenirHorarisClases($connexio) {
     try {
-        // Ahora se selecciona el campo `data` en lugar de `dia`
         $stmt = $connexio->prepare("SELECT id, assignatura, color, profe, grup, aula, data, franja, ini, fin FROM kw_reserves");
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -24,15 +23,12 @@ function obtenirHorarisClases($connexio) {
         $events = array();
 
         foreach ($result as $row) {
-            // Verificar que 'grup' y 'aula' no estén vacíos
             if (empty($row['grup']) || empty($row['aula'])) {
-                continue; // Saltar el registro si 'grup' o 'aula' están vacíos
+                continue;
             }
 
-            // Se usa el campo 'data' directamente, ya viene en formato YYYY-MM-DD
             $date = $row['data'];
 
-            // Convertir 'ini' y 'fin' (en minutos desde medianoche) a formato "HH:MM"
             $startTotalMins = $row['ini'];
             $endTotalMins   = $row['fin'];
 
@@ -44,11 +40,9 @@ function obtenirHorarisClases($connexio) {
             $endMin  = $endTotalMins % 60;
             $endTime = sprintf('%02d:%02d', $endHour, $endMin);
 
-            // Construir el formato ISO8601 para FullCalendar: "YYYY-MM-DDTHH:MM"
             $start = $date . "T" . $startTime;
             $end   = $date . "T" . $endTime;
 
-            // Puedes personalizar el título; aquí se combinan asignatura y profesor
             $profe = $row['profe'];
             $assignatura = $row['assignatura'];
 
@@ -60,13 +54,85 @@ function obtenirHorarisClases($connexio) {
                 'aula'  => $row['aula'],
                 'start' => $start,
                 'end'   => $end,
-                'color' => $row['color'] // Asegurarse de incluir el color
+                'color' => $row['color']
             );
         }
 
         return json_encode($events);
     } catch (Exception $e) {
         error_log("Error en obtenirHorarisClases: " . $e->getMessage());
-        return false; // Retornar false en caso de error
+        return false;
+    }
+}
+
+// Funció per obtenir nomes les aules de la taula kw_aules
+function obtenirAules($connexio) {
+    try {
+        $stmt = $connexio->prepare("SELECT nom FROM kw_aules WHERE mostrar = 1");
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$result) {
+            return false;
+        }
+
+        return json_encode($result);
+    } catch (Exception $e) {
+        error_log("Error en obtenirAules: " . $e->getMessage());
+        return false;
+    }
+}
+
+// Funció per obtenir els grups de la taula kw_solucio
+function agafarGrups($connexio) {
+    try {
+        $stmt = $connexio->prepare("SELECT DISTINCT grup FROM kw_solucio WHERE grup IS NOT NULL ORDER BY grup ASC");
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$result) {
+            return false;
+        }
+
+        return json_encode($result);
+    } catch (Exception $e) {
+        error_log("Error en obtenirGrups: " . $e->getMessage());
+        return false;
+    }
+}
+
+// Funció per obtenir les assigantures de la taula kw_solucio
+function agafarAssignatures($connexio) {
+    try {
+        $stmt = $connexio->prepare("SELECT DISTINCT assignatura FROM kw_solucio WHERE assignatura IS NOT NULL ORDER BY assignatura ASC");
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$result) {
+            return false;
+        }
+
+        return json_encode($result);
+    } catch (Exception $e) {
+        error_log("Error en obtenirAssignatures: " . $e->getMessage());
+        return false;
+    }
+}
+
+// Funció per obtenir els professors de la taula kw_solucio
+function agafarProfessors($connexio) {
+    try {
+        $stmt = $connexio->prepare("SELECT DISTINCT profe FROM kw_solucio WHERE profe IS NOT NULL ORDER BY profe ASC");
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$result) {
+            return false;
+        }
+
+        return json_encode($result);
+    } catch (Exception $e) {
+        error_log("Error en obtenirProfessors: " . $e->getMessage());
+        return false;
     }
 }
