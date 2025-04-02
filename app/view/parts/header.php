@@ -1,5 +1,5 @@
 <?php
-// Views/partials/header.php
+// Header de la pàgina
 
 // Inicia la sesión si aún no está iniciada
 if (session_status() === PHP_SESSION_NONE) {
@@ -12,7 +12,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <a class="navbar-brand d-flex align-items-center">
       <img src="../public/images/logo-sapa.svg" alt="Logo Institut sa Palomera" height="68" class="me-2">
     </a>
-    <!-- Si el usuario ha iniciado sesión, muestra su nombre y el botón de logout -->
+    <!-- Si l'usuari ha iniciar sessió agafarem la sesison i imprimirem el nom -->
     <?php if (isset($_SESSION['user'])): ?>
       <span class="navbar-text">
          Benvingut, <?php echo htmlspecialchars($_SESSION['user']['name']); ?>
@@ -21,7 +21,7 @@ if (session_status() === PHP_SESSION_NONE) {
         Tancar sessió
       </a>
     <?php else: ?>
-      <!-- Si no ha iniciado sesión, muestra el botón para iniciar sesión -->
+      <!-- Si no hi ha iniciar sessió tindra el botó per fer login -->
       <a href="/DAW/public/auth/google" class="btn btn-outline-light">
         Iniciar sessió
       </a>

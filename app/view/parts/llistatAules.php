@@ -1,3 +1,5 @@
+<!-- Bucle per llistar totes les aules del centre que hi ha a la BD. -->
+
 <div class="row">
   <?php foreach ($files as $chunk): ?>
     <div class="col-auto">

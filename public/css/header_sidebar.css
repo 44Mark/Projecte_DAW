@@ -1,14 +1,11 @@
-/* Reducir el padding vertical de la navbar */
 .navbar {
     padding: 0.5rem 1rem;
   }
   
-  /* Reducir la altura de la imagen del logo */
   .navbar-brand img {
     height: 50px;
   }
 
-  /* Barra lateral en color lila con ancho un poco más reducido */
 .sidebar-lila {
     background-color: #444466;
     color: #ffffff;
@@ -16,13 +13,11 @@
     min-height: 89vh;
   }
   
-  /* Ajustar el tamaño de la fuente de los enlaces del menú lateral */
   .sidebar-lila .nav-link {
     font-size: 1rem;
     color: #ffffff;
   }
   
-  /* Efecto hover en los enlaces del menú lateral */
   .sidebar-lila .nav-link:hover {
     background-color: rgba(255, 255, 255, 0.1);
     transition: background-color 0.3s ease;

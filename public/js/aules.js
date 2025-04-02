@@ -1,8 +1,10 @@
+// Script per gestionar la viicbilitat de les aules en el calendari
+
 document.addEventListener('DOMContentLoaded', function() {
-  // 1. Cargar el array de aulas preferidas desde localStorage
+  // Carreguem les aules preferides de localStorage o inicialitzem un array buit.
   let aulasPreferides = JSON.parse(localStorage.getItem('aulasPreferides')) || [];
 
-  // 2. Definir la función de filtrado en window para que la llame fullcalendar.js
+  // Definim la funció per filtrar els esdeveniments del calendari i mostrar només aquells que corresponen a les aules preferides.
   window.filterCalendarEvents = function() {
     const calendar = window.myCalendar;
     if (!calendar) return;
@@ -13,25 +15,25 @@ document.addEventListener('DOMContentLoaded', function() {
       const aulaEvento = evt.extendedProps.aula || '';
       const aulaNormalizada = aulaEvento.replace(/^Aula\s+/i, '');
 
-      // Determinar el display deseado
+      // Determinem el valor de display segons si l'aula està a la llista de preferides
       let desiredDisplay = 'none';
       if (aulasPreferides.length > 0 && aulasPreferides.includes(aulaNormalizada)) {
         desiredDisplay = 'auto';
       }
 
-      // Opción B: solo cambiar si difiere del actual
+      // Ajustem la visibilitat de l'esdeveniment
       if (evt.display !== desiredDisplay) {
         evt.setProp('display', desiredDisplay);
       }
     });
   };
 
-  // 3. Inicializar los iconos de ojo en la lista de aulas
+  // Inicialitzem els icons de toggle per a cada aula
   document.querySelectorAll('.toggle-icon').forEach(function(icon) {
     const aulaId = icon.getAttribute('data-aula');
     const aulaNormalizada = aulaId.replace(/^Aula\s+/i, '');
 
-    // Ajustar el icono según si está en aulasPreferides
+    // Assignem l'estat inicial del toggle segons si l'aula està a la llista de preferides
     if (aulasPreferides.includes(aulaNormalizada)) {
       icon.classList.remove('bi-eye-slash');
       icon.classList.add('bi-eye');
@@ -44,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
       icon.parentElement.classList.remove('visible');
     }
 
-    // Listener para alternar el estado
+    // Creem l'esdeveniment de clic per al toggle
     icon.addEventListener('click', function() {
       if (icon.dataset.state === 'closed') {
         icon.classList.remove('bi-eye-slash');
@@ -63,11 +65,11 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       localStorage.setItem('aulasPreferides', JSON.stringify(aulasPreferides));
 
-      // Llamar a la función de filtrado
+      // Cridem a la funció de filtratge per actualitzar la visibilitat dels esdeveniments
       window.filterCalendarEvents();
     });
   });
 
-  // 4. Al cargar la página, aplicar el filtro inicial
+  // Carreguem els esdeveniments del calendari i apliquem el filtratge inicial
   window.filterCalendarEvents();
 });

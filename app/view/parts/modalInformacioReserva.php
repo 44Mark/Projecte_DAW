@@ -1,4 +1,4 @@
-<!-- Modal -->
+<!-- Modal per veure l'informació d'una reserva ja feta -->
 <div class="modal fade" id="eventoModal" tabindex="-1" aria-labelledby="eventoModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

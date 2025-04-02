@@ -101,24 +101,6 @@ function agafarGrups($connexio) {
     }
 }
 
-// Funció per obtenir les assigantures de la taula kw_solucio
-function agafarAssignatures($connexio) {
-    try {
-        $stmt = $connexio->prepare("SELECT DISTINCT assignatura FROM kw_solucio WHERE assignatura IS NOT NULL ORDER BY assignatura ASC");
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        if (!$result) {
-            return false;
-        }
-
-        return json_encode($result);
-    } catch (Exception $e) {
-        error_log("Error en obtenirAssignatures: " . $e->getMessage());
-        return false;
-    }
-}
-
 // Funció per obtenir els professors de la taula kw_solucio
 function agafarProfessors($connexio) {
     try {

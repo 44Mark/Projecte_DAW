@@ -1,0 +1,33 @@
+.fila-repeticio {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+  
+  .fila-repeticio > div {
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .repeticion-container {
+    display: none;
+  }
+  
+  .repeticion-visible .data-container,
+  .repeticion-visible .ini-container,
+  .repeticion-visible .fin-container,
+  .repeticion-visible .repetir-container {
+    flex: 0 0 18%;
+  }
+  
+  .repeticion-visible .repeticion-container {
+    flex: 0 0 12%;
+    display: block;
+  }
+  
+  .btn-eliminar {
+    flex: 0 0 auto;
+  }
+  
