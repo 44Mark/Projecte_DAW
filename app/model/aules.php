@@ -178,3 +178,15 @@ function generarMissatgeConflictes($conflicts) {
     }
     return $missatge;
 }
+
+// Funció per agafar les reserves del professor que ha iniciart la sessió
+function agafarReserves($connexio, $profe) {
+    try {
+        $stmt = $connexio->prepare("SELECT * FROM kw_reserves WHERE UPPER(profe) = UPPER(:profe) ORDER BY data ASC");
+        $stmt->execute([':profe' => $profe]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        error_log("Error en agafarReserves: " . $e->getMessage());
+        return false;
+    }
+}

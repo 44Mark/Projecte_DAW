@@ -72,3 +72,4 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
 
 </body>
 </html>
+<?php var_dump($_SESSION); ?>

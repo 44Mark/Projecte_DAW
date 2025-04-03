@@ -75,6 +75,8 @@ if (!ProfeActiu($userData['email'], $connexio)) {
 
 // Si tot esta correcte, guardem les dades de l'usuari a la sessió.
 $_SESSION['user'] = $userData;
+$_SESSION['profe'] = $userData['email'];
+
 
 // Redirecció a la página principal.
 header("Location: /DAW/public/calendari.php");

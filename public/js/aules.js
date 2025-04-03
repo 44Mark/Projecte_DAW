@@ -1,10 +1,10 @@
-// Script per gestionar la viicbilitat de les aules en el calendari
+// Script per gestionar la visibilitat de les aules en el calendari
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Carreguem les aules preferides de localStorage o inicialitzem un array buit.
+  // Carreguem les aules preferides des del localStorage o inicialitzem un array buit si no n’hi ha.
   let aulasPreferides = JSON.parse(localStorage.getItem('aulasPreferides')) || [];
 
-  // Definim la funció per filtrar els esdeveniments del calendari i mostrar només aquells que corresponen a les aules preferides.
+  // Funció per filtrar els esdeveniments del calendari i mostrar només els de les aules preferides.
   window.filterCalendarEvents = function() {
     const calendar = window.myCalendar;
     if (!calendar) return;
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const aulaEvento = evt.extendedProps.aula || '';
       const aulaNormalizada = aulaEvento.replace(/^Aula\s+/i, '');
 
-      // Determinem el valor de display segons si l'aula està a la llista de preferides
+      // Establim el valor de display en funció de si l'aula és preferida o no
       let desiredDisplay = 'none';
       if (aulasPreferides.length > 0 && aulasPreferides.includes(aulaNormalizada)) {
         desiredDisplay = 'auto';
@@ -26,9 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
         evt.setProp('display', desiredDisplay);
       }
     });
-  };
+  }
 
-  // Inicialitzem els icons de toggle per a cada aula
+  // Inicialitzem les icones de visibilitat (toggle) per a cada aula
   document.querySelectorAll('.toggle-icon').forEach(function(icon) {
     const aulaId = icon.getAttribute('data-aula');
     const aulaNormalizada = aulaId.replace(/^Aula\s+/i, '');
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
       icon.parentElement.classList.remove('visible');
     }
 
-    // Creem l'esdeveniment de clic per al toggle
+    // Afegim l’esdeveniment de clic per canviar la visibilitat de l’aula
     icon.addEventListener('click', function() {
       if (icon.dataset.state === 'closed') {
         icon.classList.remove('bi-eye-slash');
@@ -65,11 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       localStorage.setItem('aulasPreferides', JSON.stringify(aulasPreferides));
 
-      // Cridem a la funció de filtratge per actualitzar la visibilitat dels esdeveniments
+      // Actualitzem la visibilitat dels esdeveniments aplicant el filtre actualitzat
       window.filterCalendarEvents();
     });
   });
-
-  // Carreguem els esdeveniments del calendari i apliquem el filtratge inicial
-  window.filterCalendarEvents();
 });
