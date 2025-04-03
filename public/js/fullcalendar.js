@@ -11,20 +11,26 @@ document.addEventListener('DOMContentLoaded', function() {
     moreLinkContent: 'veure mes',
     customButtons: {
       botoCrearReserva: {
-        text: 'Crear reserva',
+        text: '',
         click: function() {
-          // Funció per a mostrar el modal de creació de reserva
           var crearModal = new bootstrap.Modal(document.getElementById('crearReservaModal'));
           document.getElementById('crearReservaForm').reset();
           crearModal.show();
         }
+      },
+      botoVeureReserva: {
+        text: '',
+        click: function() {
+          var veureModal = new bootstrap.Modal(document.getElementById('veureReservaModal'));
+          veureModal.show();
+        }
       }
-    },
+    },    
     // Capçalera del calendari
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay botoCrearReserva'
+      right: 'dayGridMonth,timeGridWeek,timeGridDay botoCrearReserva botoVeureReserva'
     },
     // Events de FullCalendar
     events: {
@@ -69,4 +75,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
   calendar.render();
   window.myCalendar = calendar;
+
+
+  setTimeout(() => {
+    // Icono para "Crear nova reserva"
+    const btnCrear = document.querySelector('.fc-botoCrearReserva-button');
+    if (btnCrear) {
+      btnCrear.innerHTML = `<i class="bi bi-calendar-plus" data-bs-toggle="tooltip" title="Crear nova reserva" style="font-size: 1rem;"></i>`;
+      new bootstrap.Tooltip(btnCrear.querySelector('i'));
+    }
+  
+    // Icono para "Veure les meves reserves"
+    const btnVeure = document.querySelector('.fc-botoVeureReserva-button');
+    if (btnVeure) {
+      btnVeure.innerHTML = `<i class="bi bi-calendar-event" data-bs-toggle="tooltip" title="Veure les meves reserves" style="font-size: 1rem;"></i>
+`;
+      new bootstrap.Tooltip(btnVeure.querySelector('i'));
+    }
+  }, 0);
+  
+
 });

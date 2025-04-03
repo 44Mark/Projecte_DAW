@@ -67,6 +67,8 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
 
   <!-- Modal para crear una nueva reserva -->
   <?php include __DIR__ . '../../app/view/parts/modalCrearReserva.php'; ?>
+  <!-- Modal per a veure les reserves d'un usuari -->
+  <?php include __DIR__ . '../../app/view/parts/modalVeureReserva.php'; ?>
 
 </body>
 </html>

@@ -168,3 +168,13 @@ function comprovarReserva($connexio, $aula, $data, $hora_ini, $hora_fi) {
         return false;
     }
 }
+
+// Funció per generar un missatge de conflictes
+function generarMissatgeConflictes($conflicts) {
+    $missatge = "Ja hi ha una reserva un dels dies que vols:<br>";
+    foreach ($conflicts as $conflict) {
+        $dataFormatada = date('d/m/Y', strtotime($conflict['data']));
+        $missatge .= "- Aula: {$conflict['aula']} el dia $dataFormatada de {$conflict['ini']} a {$conflict['fin']}<br>";
+    }
+    return $missatge;
+}

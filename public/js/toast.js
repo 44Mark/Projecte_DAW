@@ -23,7 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
           // Resetea el formulario
           form.reset();
         } else {
-          if (data.errors && Array.isArray(data.errors)) {
+          if (data.conflicts && data.message) {
+            toastr.warning(data.message);
+          } else if (data.errors && Array.isArray(data.errors)) {
             data.errors.forEach(err => {
               if (typeof err === 'string') {
                 toastr.error(err);
@@ -51,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     "positionClass": "toast-bottom-center", // Cambiado para centrar abajo
     "preventDuplicates": false,
     "onclick": null,
-    "showDuration": "300",
+    "showDuration": "600",
     "hideDuration": "1000",
     "timeOut": "5000",
     "extendedTimeOut": "1000",

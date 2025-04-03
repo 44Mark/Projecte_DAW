@@ -3,14 +3,13 @@ require_once __DIR__ . '/../model/aules.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = [];
+    $conflicts = [];
 
-    // Recogemos los datos comunes a todas las reservas
     $motiu = $_POST['motivo'] ?? '';
     $profe = $_POST['profe'] ?? '';
     $grup = $_POST['grup'] ?? '';
     $aula = $_POST['aula'] ?? '';
 
-    // Recogemos las filas de reserva y aseguramos que sean arrays
     $dates = isset($_POST['data']) ? (array)$_POST['data'] : [];
     $inis = isset($_POST['ini']) ? (array)$_POST['ini'] : [];
     $fins = isset($_POST['fin']) ? (array)$_POST['fin'] : [];
@@ -39,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $iniParts = explode(':', $ini);
         $finParts = explode(':', $fin);
-
         $iniMins = (int)$iniParts[0] * 60 + (int)$iniParts[1];
         $finMins = (int)$finParts[0] * 60 + (int)$finParts[1];
 
@@ -48,23 +46,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             continue;
         }
 
-        // Comprovar si ja existeix una reserva
         if (comprovarReserva($connexio, $aula, $data, $iniMins, $finMins)) {
-            $errors[] = "Ja existeix una reserva per a l'aula $aula en aquesta franja horària.";
-            continue;
+            $conflicts[] = [
+                'data' => $data,
+                'aula' => $aula,
+                'ini' => $ini,
+                'fin' => $fin
+            ];
+        } else {
+            $reserves[] = [
+                'motiu' => $motiu,
+                'profe' => $profe,
+                'grup' => $grup,
+                'aula' => $aula,
+                'data' => $data,
+                'hora_ini' => $iniMins,
+                'hora_fi' => $finMins
+            ];
         }
 
-        $reserves[] = [
-            'motiu' => $motiu,
-            'profe' => $profe,
-            'grup' => $grup,
-            'aula' => $aula,
-            'data' => $data,
-            'hora_ini' => $iniMins,
-            'hora_fi' => $finMins,
-            'repetir' => $repetir,
-            'num_repeticions' => is_numeric($reps) ? (int)$reps : null
-        ];
+        // Repeticions
+        if (is_numeric($reps) && $reps > 0 && in_array($repetir, ['semanal', 'mensual'])) {
+            $interval = $repetir === 'semanal' ? '+7 days' : '+28 days';
+            $currentDate = $data;
+
+            for ($j = 0; $j < $reps; $j++) {
+                $currentDate = date('Y-m-d', strtotime($interval, strtotime($currentDate)));
+
+                if (date('N', strtotime($currentDate)) >= 6) {
+                    continue;
+                }
+
+                if (comprovarReserva($connexio, $aula, $currentDate, $iniMins, $finMins)) {
+                    $conflicts[] = [
+                        'data' => $currentDate,
+                        'aula' => $aula,
+                        'ini' => $ini,
+                        'fin' => $fin
+                    ];
+                } else {
+                    $reserves[] = [
+                        'motiu' => $motiu,
+                        'profe' => $profe,
+                        'grup' => $grup,
+                        'aula' => $aula,
+                        'data' => $currentDate,
+                        'hora_ini' => $iniMins,
+                        'hora_fi' => $finMins
+                    ];
+                }
+            }
+        }
+    }
+
+    if (!empty($conflicts)) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false,
+            'conflicts' => $conflicts,
+            'message' => generarMissatgeConflictes($conflicts) // ← Ya la tienes en el modelo
+        ]);
+        exit;
     }
 
     if (!empty($errors)) {
@@ -83,3 +125,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo "Accés no permès";
 }
+?>

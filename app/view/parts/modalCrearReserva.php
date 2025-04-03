@@ -103,4 +103,4 @@
 </div>
 
 <!-- Script per la logica d'afegir repeticions i afegir fer mes reserves -->
-<script src="./js/repetirReserva.js"></script>  
+<script src="./js/repetirReserva.js"></script>
