@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const start = info.event.start.toLocaleString();
       const end = info.event.end ? info.event.end.toLocaleString() : '';
       const modalContent = `
-        <h5><strong>Professor: </strong>${props.profe} - <strong>Asignatura: </strong>${props.assignatura}</h5>
+        <h5><strong>Professor: </strong>${props.profe} - <strong>Motiu: </strong>${props.motiu}</h5>
         <p><strong>Inicia:</strong> ${start}</p>
         <p><strong>Finalitza:</strong> ${end}</p>
         <p><strong>Grup:</strong> ${props.grup}</p>

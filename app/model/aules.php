@@ -12,7 +12,7 @@ function agafarAules() {
 // Funció per obtenir les reserves i transformar-les a JSON per a FullCalendar.
 function obtenirHorarisClases($connexio) {
     try {
-        $stmt = $connexio->prepare("SELECT id, assignatura, color, profe, grup, aula, data, franja, ini, fin FROM kw_reserves");
+        $stmt = $connexio->prepare("SELECT id, motiu, color, profe, grup, aula, data, franja, ini, fin FROM kw_reserves");
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -44,12 +44,12 @@ function obtenirHorarisClases($connexio) {
             $end   = $date . "T" . $endTime;
 
             $profe = $row['profe'];
-            $assignatura = $row['assignatura'];
+            $motiu = $row['motiu'];
 
             $events[] = array(
                 'id'    => $row['id'],
                 'profe' => $profe,
-                'assignatura' => $assignatura,
+                'motiu' => $motiu,
                 'grup'  => $row['grup'],
                 'aula'  => $row['aula'],
                 'start' => $start,
@@ -115,6 +115,56 @@ function agafarProfessors($connexio) {
         return json_encode($result);
     } catch (Exception $e) {
         error_log("Error en obtenirProfessors: " . $e->getMessage());
+        return false;
+    }
+}
+
+// Funció per inserir una reserva a la base de dades
+function insertReserva($connexio, $reserva) {
+    try {
+        $sql = "INSERT INTO kw_reserves 
+                (motiu, profe, grup, aula, data, ini, fin)
+                VALUES 
+                (:motiu, :profe, :grup, :aula, :data, :ini, :fin)";
+        
+        $stmt = $connexio->prepare($sql);
+        $stmt->execute([
+            ':motiu' => $reserva['motiu'],
+            ':profe' => $reserva['profe'],
+            ':grup' => $reserva['grup'],
+            ':aula' => $reserva['aula'],
+            ':data' => $reserva['data'],
+            ':ini' => $reserva['hora_ini'],
+            ':fin' => $reserva['hora_fi']
+        ]);
+
+        return true;
+    } catch (Exception $e) {
+        error_log("Error en insertReserva: " . $e->getMessage());
+        return false;
+    }
+}
+
+// Funció per comprovar si ja existeix una reserva en una aula durant unes hores determinades
+function comprovarReserva($connexio, $aula, $data, $hora_ini, $hora_fi) {
+    try {
+        $sql = "SELECT COUNT(*) as count FROM kw_reserves 
+                WHERE aula = :aula AND data = :data 
+                AND ((ini < :hora_fi AND fin > :hora_ini))";
+
+        $stmt = $connexio->prepare($sql);
+        $stmt->execute([
+            ':aula' => $aula,
+            ':data' => $data,
+            ':hora_ini' => $hora_ini,
+            ':hora_fi' => $hora_fi
+        ]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['count'] > 0;
+    } catch (Exception $e) {
+        error_log("Error en comprovarReserva: " . $e->getMessage());
         return false;
     }
 }

@@ -1,11 +1,10 @@
 <!-- Modal per poder fer una reserva nova. -->
-
 <link rel="stylesheet" href="/DAW/public/css/modal.css">
 
 <div class="modal fade" id="crearReservaModal" tabindex="-1" aria-labelledby="crearReservaModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form id="crearReservaForm">
+    <form id="crearReservaForm">
         <div class="modal-header">
           <h5 class="modal-title" id="crearReservaModalLabel">Crear Nova Reserva</h5>
           <div>
@@ -93,11 +92,10 @@
                 <button type="button" class="btn btn-secondary">Afegir altra reserva</button>
               </div>
             </div>
-
-            <div class="modal-footer mt-4">
-              <button type="submit" class="btn btn-primary">Guardar Reserva</button>
-            </div>
           </div>
+        </div>
+        <div class="modal-footer mt-4">
+          <button type="submit" id="submitReserva" class="btn btn-primary">Guardar Reserva</button>
         </div>
       </form>
     </div>
@@ -105,4 +103,4 @@
 </div>
 
 <!-- Script per la logica d'afegir repeticions i afegir fer mes reserves -->
-<script src="./js/repetirReserva.js"></script>
+<script src="./js/repetirReserva.js"></script>  
