@@ -24,6 +24,9 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
   <!-- jQuery Library per poder utilitzar el Toast-->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+  <!-- Awesome per logos -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
   <!-- Toastr CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <!-- Toastr JS -->
@@ -36,6 +39,7 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
   <script src="./js/fullcalendar.js"></script>
   <script src="./js/aules.js"></script>
   <script src="./js/toast.js"></script>
+  <script src="./js/modalVeureReserves.js"></script>
 </head>
 <body>
 
@@ -72,4 +76,3 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
 
 </body>
 </html>
-<?php var_dump($_SESSION); ?>

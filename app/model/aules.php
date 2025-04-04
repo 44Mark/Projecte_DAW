@@ -190,3 +190,15 @@ function agafarReserves($connexio, $profe) {
         return false;
     }
 }
+
+// Funció per eliminar una reserva
+function eliminarReserva($connexio, $id) {
+    try {
+        $stmt = $connexio->prepare("DELETE FROM kw_reserves WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        return true;
+    } catch (Exception $e) {
+        error_log("Error en eliminarReserva: " . $e->getMessage());
+        return false;
+    }
+}
