@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Verifiquem que s'han rebut els paràmetres correctes.
 if (!isset($_GET['code']) || !isset($_GET['state'])) {
@@ -76,7 +78,10 @@ if (!ProfeActiu($userData['email'], $connexio)) {
 // Si tot esta correcte, guardem les dades de l'usuari a la sessió.
 $_SESSION['user'] = $userData;
 $_SESSION['profe'] = $userData['email'];
+$_SESSION['nom'] = strtoupper(explode('@', $userData['email'])[0]);
 
+// Creamos una nueva sesión 'profe_nombre' que contiene solo el nombre en mayúsculas.
+$_SESSION['profe_nombre'] = strtoupper(explode('@', $userData['email'])[0]);
 
 // Redirecció a la página principal.
 header("Location: /DAW/public/calendari.php");

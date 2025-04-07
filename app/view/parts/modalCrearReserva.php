@@ -19,15 +19,15 @@
                 <input type="text" class="form-control" id="motivo" name="motivo" required>
               </div>
               <div class="col-md-6">
+                <?php
+                // Asegurarse de que la sesión esté iniciada y la clave 'profe_nombre' esté definida.
+                if (!isset($_SESSION)) {
+                    session_start();
+                }
+                $profeNombre = isset($_SESSION['profe_nombre']) ? htmlspecialchars($_SESSION['profe_nombre'], ENT_QUOTES, 'UTF-8') : 'N/A';
+                ?>
                 <label for="profe" class="form-label">Professor</label>
-                <select class="form-select" id="profe" name="profe" required>
-                  <option value="" disabled selected>---</option>
-                  <?php foreach($professorsCrearReserva as $profe): ?>
-                    <option value="<?= htmlspecialchars($profe['profe'], ENT_QUOTES, 'UTF-8'); ?>">
-                      <?= htmlspecialchars($profe['profe'], ENT_QUOTES, 'UTF-8'); ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
+                <input type="text" class="form-control" id="profe" name="profe" value="<?= $profeNombre; ?>" readonly>
               </div>
             </div>
             <div class="row mb-3">
@@ -35,7 +35,7 @@
                 <label for="grup" class="form-label">Grup</label>
                 <select class="form-select" id="grup" name="grup" required>
                   <option value="" disabled selected>---</option>
-                  <?php foreach($grupCrearReserva as $grup): ?>
+                  <?php foreach($grupCrearReserva as $grup): ?></div>
                     <option value="<?= htmlspecialchars($grup['grup'], ENT_QUOTES, 'UTF-8'); ?>">
                       <?= htmlspecialchars($grup['grup'], ENT_QUOTES, 'UTF-8'); ?>
                     </option>

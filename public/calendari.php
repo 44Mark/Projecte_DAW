@@ -15,12 +15,13 @@ require_once __DIR__ . '/../config/connexio.php';
 </head>
 <body>
 
-
+  <!-- Incluim el header de forma modular -->
   <?php include __DIR__ . '../../app/view/parts/header.php'; ?>
 
   <div class="container-fluid p-0">
-    <div class="row g-0">      
+    <div class="row g-0">
 
+      <!-- Incluim la barra lateral de forma modular-->
       <?php include __DIR__ . '../../app/view/parts/sidebar.php'; ?>
 
       <main class="col p-2">

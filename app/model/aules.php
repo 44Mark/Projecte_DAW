@@ -101,23 +101,23 @@ function agafarGrups($connexio) {
     }
 }
 
-// Funció per obtenir els professors de la taula kw_solucio
-function agafarProfessors($connexio) {
-    try {
-        $stmt = $connexio->prepare("SELECT DISTINCT profe FROM kw_solucio WHERE profe IS NOT NULL ORDER BY profe ASC");
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// // Funció per obtenir els professors de la taula kw_solucio
+// function agafarProfessors($connexio) {
+//     try {
+//         $stmt = $connexio->prepare("SELECT DISTINCT profe FROM kw_solucio WHERE profe IS NOT NULL ORDER BY profe ASC");
+//         $stmt->execute();
+//         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        if (!$result) {
-            return false;
-        }
+//         if (!$result) {
+//             return false;
+//         }
 
-        return json_encode($result);
-    } catch (Exception $e) {
-        error_log("Error en obtenirProfessors: " . $e->getMessage());
-        return false;
-    }
-}
+//         return json_encode($result);
+//     } catch (Exception $e) {
+//         error_log("Error en obtenirProfessors: " . $e->getMessage());
+//         return false;
+//     }
+// }
 
 // Funció per inserir una reserva a la base de dades
 function insertReserva($connexio, $reserva) {
@@ -145,7 +145,7 @@ function insertReserva($connexio, $reserva) {
     }
 }
 
-// Funció per comprovar si ja existeix una reserva en una aula durant unes hores determinades
+// Funció per comprovar si ja existeix una reserva en una aula durant unes hores determinades a kw_reserves
 function comprovarReserva($connexio, $aula, $data, $hora_ini, $hora_fi) {
     try {
         $sql = "SELECT COUNT(*) as count FROM kw_reserves 
@@ -179,7 +179,7 @@ function generarMissatgeConflictes($conflicts) {
     return $missatge;
 }
 
-// Funció per agafar les reserves del professor que ha iniciart la sessió
+// Funció per agafar les reserves del professor que ha iniciat la sessió
 function agafarReserves($connexio, $profe) {
     try {
         $stmt = $connexio->prepare("SELECT * FROM kw_reserves WHERE UPPER(profe) = UPPER(:profe) ORDER BY data ASC");

@@ -30,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             continue;
         }
 
-        $dayOfWeek = date('N', strtotime($data));
-        if ($dayOfWeek >= 6) {
-            $errors[] = "No es poden fer reserves els caps de setmana.";
+        $dayOfWeek = date('w', strtotime($data)); // Cambiado de 'N' a 'w'
+        if ($dayOfWeek < 0 || $dayOfWeek > 4) { // Cambiado para reflejar lunes = 0 y viernes = 4
+            $errors[] = "No es poden fer reserves fora dels dies laborables.";
             continue;
         }
 
@@ -51,7 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'data' => $data,
                 'aula' => $aula,
                 'ini' => $ini,
-                'fin' => $fin
+                'fin' => $fin,
+                'motiu' => 'Ja hi ha una reserva un dels dies que vols.'
             ];
         } else {
             $reserves[] = [
@@ -73,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             for ($j = 0; $j < $reps; $j++) {
                 $currentDate = date('Y-m-d', strtotime($interval, strtotime($currentDate)));
 
-                if (date('N', strtotime($currentDate)) >= 6) {
+                if (date('w', strtotime($currentDate)) < 0 || date('w', strtotime($currentDate)) > 4) {
                     continue;
                 }
 
@@ -82,7 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'data' => $currentDate,
                         'aula' => $aula,
                         'ini' => $ini,
-                        'fin' => $fin
+                        'fin' => $fin,
+                        'motiu' => 'Ja hi ha una reserva un dels dies que vols.'
                     ];
                 } else {
                     $reserves[] = [

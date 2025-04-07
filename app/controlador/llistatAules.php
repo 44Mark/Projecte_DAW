@@ -8,6 +8,6 @@ $aulas = agafarAules();
 $aulasCrearReserva = agafarAules();
 // Agafar els grups per el modal de CrearReserva
 $grupCrearReserva = json_decode(agafarGrups($connexio), true);
-// Agafar els professors per el modal de CrearReserva
-$professorsCrearReserva = json_decode(agafarProfessors($connexio), true);
+// // Agafar els professors per el modal de CrearReserva
+// $professorsCrearReserva = json_decode(agafarProfessors($connexio), true);
 ?>

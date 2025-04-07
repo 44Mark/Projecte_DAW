@@ -1,8 +1,10 @@
+// Script per agafar els misatges de la reserva i mostrar-los amb toast.
+
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('crearReservaForm');
   
     form.addEventListener('submit', function (e) {
-      e.preventDefault(); // Evita que se envíe normalmente
+      e.preventDefault();
   
       const formData = new FormData(form);
   
@@ -15,12 +17,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (data.success) {
           toastr.success('Reserva creada correctament!');
   
-          // Cierra el modal después de éxito
+          // Tanquem el modal.
           const modalEl = document.getElementById('crearReservaModal');
           const modal = bootstrap.Modal.getInstance(modalEl);
           modal.hide();
   
-          // Resetea el formulario
+          // Resetejem el formulari.
           form.reset();
         } else {
           if (data.conflicts && data.message) {
@@ -45,12 +47,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
   
+  // Configuració del toast.
   toastr.options = {
     "closeButton": true,
     "debug": false,
     "newestOnTop": false,
     "progressBar": true,
-    "positionClass": "toast-bottom-center", // Cambiado para centrar abajo
+    "positionClass": "toast-bottom-center",
     "preventDuplicates": false,
     "onclick": null,
     "showDuration": "600",

@@ -9,7 +9,9 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../..');
 $dotenv->load();
 
 // Iniciem la sessió per emmagatzemar el 'state'.
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Credencials de Google guardades al .env.
 $clientID    = $_ENV['GOOGLE_CLIENT_ID'];
