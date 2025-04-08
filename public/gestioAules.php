@@ -10,7 +10,7 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="cat">
 <head>
   <meta charset="UTF-8">
   <title>Gestió i Reserves d'aules del centre</title>
@@ -23,6 +23,8 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Importació de la llibreria de FullCalendar -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
+  <!-- Importació de la llibreria de FullCalendar per a la traducció al català -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/locales-all.global.min.js"></script>
 
   <!-- jQuery Library per poder utilitzar el Toast-->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -56,14 +58,13 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
       <!-- Incluim la barra lateral de forma modular-->
       <?php include __DIR__ . '../../app/view/parts/sidebar.php'; ?>
 
-      <main class="col p-1">
+      <main class="col p-1 ps-0">
         <div class="row">
           <!-- Div per el calendari -->
-          <div class="col-12 col-lg-8 mb-3">
+          <div class="col-12 col-lg-8 mb-3 pe-lg-7">
             <div id="calendar"></div>
           </div>
-          <!-- Div per el llistat d'aules -->
-          <div class="col-12 col-lg-4 mb-6 mt-5 custom-margin-top">
+          <div class="col-12 col-lg-4 mb-6 mt-5 custom-margin-top ps-lg-5">
             <?php include __DIR__ . '../../app/view/parts/llistatAules.php'; ?>
           </div>
         </div>

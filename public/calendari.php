@@ -3,7 +3,7 @@ require_once __DIR__ . '/../config/connexio.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="cat">
 <head>
   <meta charset="UTF-8">
   <title>Calendari de festes i activitats</title>

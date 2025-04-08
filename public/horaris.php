@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="cat">
 <head>
   <meta charset="UTF-8">
   <title>Horaris</title>

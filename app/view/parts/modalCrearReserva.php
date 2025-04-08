@@ -20,7 +20,6 @@
               </div>
               <div class="col-md-6">
                 <?php
-                // Asegurarse de que la sesión esté iniciada y la clave 'profe_nombre' esté definida.
                 if (!isset($_SESSION)) {
                     session_start();
                 }
@@ -87,9 +86,9 @@
                 <button type="button" class="btn btn-danger btn-sm eliminar-fila">X</button>
               </div>
             </div>
-            <div class="row mb-3">
+            <div class="row mb-1">
               <div class="col-md-3 d-flex align-items-end">
-                <button type="button" class="btn btn-secondary">Afegir altra reserva</button>
+                <button type="button" class="btn btn-secondary mt-4">Més reserves</button>
               </div>
             </div>
           </div>

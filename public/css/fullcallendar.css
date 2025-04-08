@@ -1,8 +1,8 @@
 #calendar {
-    width: 80%;
+    width: 90%;
     max-width: 900px;
     height: 550px;
-    margin: 20px auto 0 150px;
+    margin: 20px auto 0 120px; /* Cambiado de 150px a 100px */
   }
   
 /* Canvi de color de les aules que estan desmarcades*/
@@ -20,3 +20,19 @@
     display: inline-block;
     width: 100%;
   }
+
+  .fc .fc-col-header-cell a {
+    text-decoration: none !important;
+    color: #000 !important; /* o el color que tú prefieras */
+    pointer-events: none;
+    cursor: default;
+    text-transform: uppercase;
+  }
+
+  .fc .fc-daygrid-day-number {
+    text-decoration: none !important;
+    color: #000 !important;  /* cambia el color si quieres */
+    pointer-events: none;    /* opcional: evita que sea clicable */
+    cursor: default;
+  }
+

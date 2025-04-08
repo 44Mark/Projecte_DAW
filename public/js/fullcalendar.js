@@ -5,17 +5,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Inicialitzem el calendari amb FullCalendar i les opcions personalitzades
   var calendar = new FullCalendar.Calendar(fullcalendar, {
+    locale: 'ca',
     themeSystem: 'bootstrap',
     initialView: 'dayGridMonth',
+    allDayText: 'Tot el dia',
     dayMaxEventRows: 2,
     moreLinkContent: 'veure més',
+    
+    slotMinTime: '08:00:00',
+    allDaySlot: false,
 
-    // Botons personalitzats a la capçalera
+    buttonText: {
+      today: 'Avui',
+      month: 'Mes',
+      week: 'Setmana',
+      day: 'Dia'
+    },
+  
     customButtons: {
       botoCrearReserva: {
         text: '',
         click: function () {
-          // Obrim el modal per a crear una nova reserva
           var crearModal = new bootstrap.Modal(document.getElementById('crearReservaModal'));
           document.getElementById('crearReservaForm').reset();
           crearModal.show();
@@ -24,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
       botoVeureReserva: {
         text: '',
         click: function () {
-          // Obrim el modal per a veure les reserves de l'usuari
           var veureModal = new bootstrap.Modal(document.getElementById('veureReservaModal'));
           veureModal.show();
         }
@@ -33,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Capçalera del calendari
     headerToolbar: {
-      left: 'prev,next today',
+      left: 'prev next today',
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay botoCrearReserva botoVeureReserva'
     },
