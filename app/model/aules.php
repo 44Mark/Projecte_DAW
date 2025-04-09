@@ -46,16 +46,21 @@ function obtenirHorarisClases($connexio) {
             $profe = $row['profe'];
             $motiu = $row['motiu'];
 
+            $title = $startTime . ' - ' . $row['aula'];
+
             $events[] = array(
-                'id'    => $row['id'],
-                'profe' => $profe,
-                'motiu' => $motiu,
-                'grup'  => $row['grup'],
-                'aula'  => $row['aula'],
+                'title' => $title,
                 'start' => $start,
                 'end'   => $end,
-                'color' => $row['color']
+                'color' => $row['color'],
+                'extendedProps' => [
+                    'profe' => $row['profe'],
+                    'motiu' => $row['motiu'],
+                    'grup'  => $row['grup'],
+                    'aula'  => $row['aula']
+                ]
             );
+
         }
 
         return json_encode($events);
@@ -123,9 +128,9 @@ function agafarGrups($connexio) {
 function insertReserva($connexio, $reserva) {
     try {
         $sql = "INSERT INTO kw_reserves 
-                (motiu, profe, grup, aula, data, ini, fin)
+                (motiu, profe, grup, aula, data, ini, fin, color)
                 VALUES 
-                (:motiu, :profe, :grup, :aula, :data, :ini, :fin)";
+                (:motiu, :profe, :grup, :aula, :data, :ini, :fin, :color)";
         
         $stmt = $connexio->prepare($sql);
         $stmt->execute([
@@ -135,7 +140,8 @@ function insertReserva($connexio, $reserva) {
             ':aula' => $reserva['aula'],
             ':data' => $reserva['data'],
             ':ini' => $reserva['hora_ini'],
-            ':fin' => $reserva['hora_fi']
+            ':fin' => $reserva['hora_fi'],
+            ':color' => $reserva['color'] ?? '#000000'
         ]);
 
         return true;

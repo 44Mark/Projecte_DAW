@@ -1,6 +1,26 @@
 <?php
 require_once __DIR__ . '/../model/aules.php';
 
+$colorsAules = [
+    'Aula A0' => '#e6194B',
+    'Aula A1' => '#f3722c',
+    'Aula A2' => '#ffe119',
+    'Aula A3' => '#3cb44b',
+    'Aula A4' => '#4363d8',
+    'Biblioteca' => '#42d4f4',
+    'Aula BTX1A' => '#911eb4',
+    'Aula BTX1B' => '#f032e6',
+    'Aula BTX2A' => '#46f0f0',
+    'Aula BTX2B' => '#bfef45',
+    'Aula DAW 1' => '#fabed4',
+    'Aula FPB 1' => '#ffd700',
+    'Aula FPB 2' => '#dcbeff',
+    'GIMNAS1' => '#469990',
+    'GIMNAS2' => '#9A6324',
+  ];
+  
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = [];
     $conflicts = [];
@@ -117,9 +137,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    foreach ($reserves as $reserva) {
+    foreach ($reserves as &$reserva) {
+        $reserva['color'] = $colorsAules[$reserva['aula']] ?? '#000000';
         insertReserva($connexio, $reserva);
-    }
+    }    
 
     header('Content-Type: application/json');
     echo json_encode(['success' => true]);

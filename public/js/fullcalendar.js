@@ -3,9 +3,9 @@
 document.addEventListener('DOMContentLoaded', function () {
   var fullcalendar = document.getElementById('calendar');
 
-  // Inicialitzem el calendari amb FullCalendar i les opcions personalitzades
   var calendar = new FullCalendar.Calendar(fullcalendar, {
     locale: 'ca',
+    firstDay: 1,
     themeSystem: 'bootstrap',
     initialView: 'dayGridMonth',
     allDayText: 'Tot el dia',
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
       week: 'Setmana',
       day: 'Dia'
     },
-  
+
     customButtons: {
       botoCrearReserva: {
         text: '',
@@ -40,14 +40,12 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     },
 
-    // Capçalera del calendari
     headerToolbar: {
       left: 'prev next today',
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay botoCrearReserva botoVeureReserva'
     },
 
-    // Configuració de càrrega d'esdeveniments des del backend
     events: {
       url: '../app/controlador/getHorarisFixes.php',
       method: 'GET',
@@ -56,22 +54,20 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     },
 
-    // Personalització del contingut de cada esdeveniment al calendari
-    eventContent: function (arg) {
-      const startTime = arg.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const aula = arg.event.extendedProps.aula;
-      const color = arg.event.extendedProps.color || '#000';
+    // Color de fons segons el color associat a l'aula
+    eventDidMount: function(info) {
+      const color = info.event.extendedProps.color;
 
-      const dotHtml = `<span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background-color:${color};margin-right:4px;"></span>`;
-
-      return {
-        html: `<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                 ${dotHtml}${startTime} - ${aula}
-               </div>`
-      };
+      if (color) {
+        info.el.style.backgroundColor = color;
+        info.el.style.color = '#fff';
+        info.el.style.border = 'none';
+        info.el.style.padding = '2px 4px';
+        info.el.style.borderRadius = '4px';
+      }
     },
 
-    // Quan es fa clic a un esdeveniment, mostrem un modal amb els detalls
+    // Mostrar detalls al fer clic en un esdeveniment
     eventClick: function (info) {
       const props = info.event.extendedProps;
       const start = info.event.start.toLocaleString();
@@ -90,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
       modal.show();
     },
 
-    // Quan es carreguen els esdeveniments, apliquem el filtre (si existeix)
+    // Filtratge de visibilitat per aula (preferides)
     eventsSet: function () {
       setTimeout(function () {
         if (window.filterCalendarEvents) {
@@ -103,16 +99,14 @@ document.addEventListener('DOMContentLoaded', function () {
   calendar.render();
   window.myCalendar = calendar;
 
-  // Un cop el calendari estigui renderitzat, personalitzem els botons amb icones i tooltips
+  // Personalització dels botons després de renderitzar el calendari
   setTimeout(() => {
-    // Icona per al botó "Crear nova reserva"
     const btnCrear = document.querySelector('.fc-botoCrearReserva-button');
     if (btnCrear) {
       btnCrear.innerHTML = `<i class="bi bi-calendar-plus" data-bs-toggle="tooltip" title="Crear nova reserva" style="font-size: 1rem;"></i>`;
       new bootstrap.Tooltip(btnCrear.querySelector('i'));
     }
 
-    // Icona per al botó "Veure les meves reserves"
     const btnVeure = document.querySelector('.fc-botoVeureReserva-button');
     if (btnVeure) {
       btnVeure.innerHTML = `<i class="bi bi-calendar-event" data-bs-toggle="tooltip" title="Veure les meves reserves" style="font-size: 1rem;"></i>`;

@@ -36,3 +36,12 @@
     cursor: default;
   }
 
+/* Oculta la hora que pone por defecto el evento de FullCalendar */
+.fc-daygrid-event .fc-event-time {
+  display: none;
+}
+
+/* También oculta la hora del evento */
+.fc-timegrid-event .fc-event-time {
+  display: none !important;
+}
