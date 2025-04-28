@@ -106,6 +106,18 @@ function agafarGrups($connexio) {
     }
 }
 
+// Funció per obtenir les reserves de la taula reserves
+function obtenirReserves($connexio) {
+    $sql = "SELECT * FROM reserves";
+    $resultat = $connexio->query($sql);
+
+    if ($resultat->num_rows > 0) {
+        return $resultat->fetch_all(MYSQLI_ASSOC);
+    } else {
+        return [];
+    }
+}
+
 // // Funció per obtenir els professors de la taula kw_solucio
 // function agafarProfessors($connexio) {
 //     try {
@@ -154,9 +166,10 @@ function insertReserva($connexio, $reserva) {
 // Funció per comprovar si ja existeix una reserva en una aula durant unes hores determinades a kw_reserves
 function comprovarReserva($connexio, $aula, $data, $hora_ini, $hora_fi) {
     try {
-        $sql = "SELECT COUNT(*) as count FROM kw_reserves 
+        $sql = "SELECT * FROM kw_reserves 
                 WHERE aula = :aula AND data = :data 
-                AND ((ini < :hora_fi AND fin > :hora_ini))";
+                AND ((ini < :hora_fi AND fin > :hora_ini))
+                LIMIT 1";
 
         $stmt = $connexio->prepare($sql);
         $stmt->execute([
@@ -166,23 +179,37 @@ function comprovarReserva($connexio, $aula, $data, $hora_ini, $hora_fi) {
             ':hora_fi' => $hora_fi
         ]);
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $conflict = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $result['count'] > 0;
+        return $conflict ? $conflict : false;
     } catch (Exception $e) {
         error_log("Error en comprovarReserva: " . $e->getMessage());
         return false;
     }
 }
 
-// Funció per generar un missatge de conflictes
-function generarMissatgeConflictes($conflicts) {
-    $missatge = "Ja hi ha una reserva un dels dies que vols:<br>";
-    foreach ($conflicts as $conflict) {
-        $dataFormatada = date('d/m/Y', strtotime($conflict['data']));
-        $missatge .= "- Aula: {$conflict['aula']} el dia $dataFormatada de {$conflict['ini']} a {$conflict['fin']}<br>";
+// Funció per comprovar si el professor jat e una reserva en aquelles hores en una altre aula.
+function comprovarReservaProfessor($connexio, $profe, $data, $hora_ini, $hora_fi) {
+    try {
+        $sql = "SELECT * FROM kw_reserves 
+                WHERE UPPER(profe) = UPPER(:profe)
+                AND data = :data
+                AND ((ini < :hora_fi) AND (fin > :hora_ini))
+                LIMIT 1";
+        $stmt = $connexio->prepare($sql);
+        $stmt->execute([
+            ':profe'     => $profe,
+            ':data'      => $data,
+            ':hora_ini'  => $hora_ini,
+            ':hora_fi'   => $hora_fi
+        ]);
+        $conflict = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $conflict ? $conflict : false;
+    } catch (Exception $e) {
+        error_log("Error en comprovarReservaProfessor: " . $e->getMessage());
+        return false;
     }
-    return $missatge;
 }
 
 // Funció per agafar les reserves del professor que ha iniciat la sessió
@@ -205,6 +232,55 @@ function eliminarReserva($connexio, $id) {
         return true;
     } catch (Exception $e) {
         error_log("Error en eliminarReserva: " . $e->getMessage());
+        return false;
+    }
+}
+
+function comprovarReservaSolucio($connexio, $aula, $data, $hora_ini, $hora_fi) {
+    try {
+        $sql = "SELECT * FROM kw_solucio 
+                WHERE aula = :aula AND dia = WEEKDAY(:data)
+                AND ((ini < :hora_fi AND fin > :hora_ini))
+                LIMIT 1";
+
+        $stmt = $connexio->prepare($sql);
+        $stmt->execute([
+            ':aula' => $aula,
+            ':data' => $data,
+            ':hora_ini' => $hora_ini,
+            ':hora_fi' => $hora_fi
+        ]);
+
+        $conflict = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $conflict ? $conflict : false;
+    } catch (Exception $e) {
+        error_log("Error en comprovarReservaSolucio: " . $e->getMessage());
+        return false;
+    }
+}
+
+function comprovarReservaProfessorSolucio($connexio, $profe, $data, $hora_ini, $hora_fi) {
+    try {
+        $sql = "SELECT * FROM kw_solucio 
+                WHERE UPPER(profe) = UPPER(:profe)
+                AND dia = WEEKDAY(:data)
+                AND ((ini < :hora_fi AND fin > :hora_ini))
+                LIMIT 1";
+
+        $stmt = $connexio->prepare($sql);
+        $stmt->execute([
+            ':profe' => $profe,
+            ':data' => $data,
+            ':hora_ini' => $hora_ini,
+            ':hora_fi' => $hora_fi
+        ]);
+
+        $conflict = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $conflict ? $conflict : false;
+    } catch (Exception $e) {
+        error_log("Error en comprovarReservaProfessorSolucio: " . $e->getMessage());
         return false;
     }
 }

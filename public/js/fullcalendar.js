@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var calendar = new FullCalendar.Calendar(fullcalendar, {
     locale: 'ca',
     firstDay: 1,
+    weekends: true,
     themeSystem: 'bootstrap',
     initialView: 'dayGridMonth',
     allDayText: 'Tot el dia',

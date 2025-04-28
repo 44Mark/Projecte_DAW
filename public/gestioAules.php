@@ -24,7 +24,7 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
   <!-- Importació de la llibreria de FullCalendar -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
   <!-- Importació de la llibreria de FullCalendar per a la traducció al català -->
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/locales-all.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.global.min.js"></script>
 
   <!-- jQuery Library per poder utilitzar el Toast-->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -45,7 +45,8 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
   <script src="./js/aules.js"></script>
   <script src="./js/toast.js"></script>
   <script src="./js/modalVeureReserves.js"></script>
-  <script src="./js/modificarEliminarReserves.js"></script>
+  <script src="./js/eliminarReserves.js"></script>
+  <script src="./js/modificarReserves.js"></script>
 </head>
 <body>
 

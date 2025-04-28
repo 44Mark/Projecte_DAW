@@ -19,6 +19,24 @@
               </tr>
             </thead>
             <tbody id="reservesTableBody">
+              <?php if (!empty($reserves)): ?>
+                <?php foreach ($reserves as $reserva): ?>
+                  <tr>
+                    <td><?= htmlspecialchars($reserva['motiu'], ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?= htmlspecialchars($reserva['data'], ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?= htmlspecialchars($reserva['hores'], ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?= htmlspecialchars($reserva['aula'], ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?= htmlspecialchars($reserva['grup'], ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td>  
+                      <button type="button" class="btn btn-primary modificar-btn" data-id="<?= $reserva['id']; ?>">Modificar</button>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <tr>
+                  <td colspan="6" class="text-center">No hi ha reserves disponibles.</td>
+                </tr>
+              <?php endif; ?>
             </tbody>
           </table>
         </div>

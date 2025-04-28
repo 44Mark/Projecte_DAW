@@ -5,7 +5,7 @@ document.addEventListener('click', function(e) {
     if (e.target.closest('.eliminar-btn')) {
       const id = e.target.closest('.eliminar-btn').dataset.id;
 
-      fetch('/DAW/app/controlador/modificarEliminarReserva.php', {
+      fetch('/DAW/app/controlador/eliminarReserva.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

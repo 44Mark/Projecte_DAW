@@ -16,7 +16,7 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <label for="motivo" class="form-label">Motiu de la Reserva</label>
-                <input type="text" class="form-control" id="motivo" name="motivo" required>
+                <input type="text" class="form-control" id="motivo" name="motivo">
               </div>
               <div class="col-md-6">
                 <?php
@@ -32,7 +32,7 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <label for="grup" class="form-label">Grup</label>
-                <select class="form-select" id="grup" name="grup" required>
+                <select class="form-select" id="grup" name="grup">
                   <option value="" disabled selected>---</option>
                   <?php foreach($grupCrearReserva as $grup): ?></div>
                     <option value="<?= htmlspecialchars($grup['grup'], ENT_QUOTES, 'UTF-8'); ?>">
@@ -46,10 +46,15 @@
                 <select class="form-select" id="aula" name="aula" required>
                   <option value="" disabled selected>---</option>
                   <?php foreach($aulasCrearReserva as $aula): ?>
-                    <option value="<?= htmlspecialchars($aula['nom'], ENT_QUOTES, 'UTF-8'); ?>">
-                      <?= htmlspecialchars($aula['nom'], ENT_QUOTES, 'UTF-8'); ?>
-                    </option>
-                  <?php endforeach; ?>
+                  <?php
+                    $nomOriginal = $aula['nom'];
+                    $nomNet = str_replace('Aula ', '', $nomOriginal); // elimina el "Aula " del princip si hi ha
+                  ?>
+                  <option value="<?= htmlspecialchars($nomNet, ENT_QUOTES, 'UTF-8'); ?>">
+                    <?= htmlspecialchars($nomOriginal, ENT_QUOTES, 'UTF-8'); ?>
+                  </option>
+                <?php endforeach; ?>
+
                 </select>
               </div>
             </div>
@@ -62,11 +67,11 @@
               </div>
               <div class="col-md-2 ini-container">
                 <label for="ini" class="form-label">Hora d'inici</label>
-                <input type="time" class="form-control" name="ini" required>
+                <input type="time" class="form-control" name="ini" min="08:00" max="21:30" required>
               </div>
               <div class="col-md-2 fin-container">
                 <label for="fin" class="form-label">Hora fi</label>
-                <input type="time" class="form-control" name="fin" required>
+                <input type="time" class="form-control" name="fin" min="08:00" max="21:30" required>
               </div>
               <div class="col-md-3 repetir-container">
                 <label for="repetir" class="form-label">Repetir

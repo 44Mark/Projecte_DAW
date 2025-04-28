@@ -34,3 +34,6 @@ main h1 {
   z-index: 1056; 
 }
 
+main > .row {
+  margin-right: unset !important;
+}
