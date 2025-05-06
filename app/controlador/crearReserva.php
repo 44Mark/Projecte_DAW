@@ -30,6 +30,11 @@ $colorsAules = [
     $grup  = $_POST['grup']  ?? '';
     $aula  = $_POST['aula']  ?? '';
 
+    // Asegurar que el prefijo "Aula " se maneje de manera consistente
+    if (strpos($aula, 'Aula ') === false) {
+        $aula = 'Aula ' . $aula;
+    }
+
     // Es recullen arrays amb dates, hores, repeticions, etc.
     $dates = isset($_POST['data']) ? (array)$_POST['data'] : [];
     $inis = isset($_POST['ini']) ? (array)$_POST['ini'] : [];

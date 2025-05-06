@@ -163,9 +163,41 @@ function insertReserva($connexio, $reserva) {
     }
 }
 
+// Funció per actualitzar una reserva a la base de dades
+function actualitzarReserva($connexio, $reserva) {
+    try {
+        $sql = "UPDATE kw_reserves 
+                SET motiu = :motiu, profe = :profe, grup = :grup, aula = :aula, data = :data, ini = :ini, fin = :fin, color = :color 
+                WHERE id = :id";
+        
+        $stmt = $connexio->prepare($sql);
+        $stmt->execute([
+            ':motiu' => $reserva['motiu'],
+            ':profe' => $reserva['profe'],
+            ':grup' => $reserva['grup'],
+            ':aula' => $reserva['aula'],
+            ':data' => $reserva['data'],
+            ':ini' => $reserva['hora_ini'],
+            ':fin' => $reserva['hora_fi'],
+            ':color' => $reserva['color'] ?? '#000000',
+            ':id' => $reserva['id']
+        ]);
+
+        return true;
+    } catch (Exception $e) {
+        error_log("Error en actualitzarReserva: " . $e->getMessage());
+        return false;
+    }
+}
+
 // Funció per comprovar si ja existeix una reserva en una aula durant unes hores determinades a kw_reserves
 function comprovarReserva($connexio, $aula, $data, $hora_ini, $hora_fi) {
     try {
+        // Asegurar que el prefijo "Aula " se maneje de manera consistente en las verificaciones
+        if (strpos($aula, 'Aula ') === false) {
+            $aula = 'Aula ' . $aula;
+        }
+
         $sql = "SELECT * FROM kw_reserves 
                 WHERE aula = :aula AND data = :data 
                 AND ((ini < :hora_fi AND fin > :hora_ini))
@@ -238,6 +270,11 @@ function eliminarReserva($connexio, $id) {
 
 function comprovarReservaSolucio($connexio, $aula, $data, $hora_ini, $hora_fi) {
     try {
+        // Asegurar que el prefijo "Aula " se maneje de manera consistente en las verificaciones
+        if (strpos($aula, 'Aula ') === false) {
+            $aula = 'Aula ' . $aula;
+        }
+
         $sql = "SELECT * FROM kw_solucio 
                 WHERE aula = :aula AND dia = WEEKDAY(:data)
                 AND ((ini < :hora_fi AND fin > :hora_ini))

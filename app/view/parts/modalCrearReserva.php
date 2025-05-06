@@ -32,7 +32,7 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <label for="grup" class="form-label">Grup</label>
-                <select class="form-select" id="grup" name="grup">
+                <select class="form-select" id="grup" name="grup" required>
                   <option value="" disabled selected>---</option>
                   <?php foreach($grupCrearReserva as $grup): ?></div>
                     <option value="<?= htmlspecialchars($grup['grup'], ENT_QUOTES, 'UTF-8'); ?>">

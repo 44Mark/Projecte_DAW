@@ -11,12 +11,12 @@ Les funcionalitats principals del sistema inclouen:
 - **Veure disponibilitat de les aules:** Els professors poden consultar la disponibilitat de les aules.
 - **Accés diferenciat:** Hi haurà dos tipus d'accés:
   - **Administrador:** Gestiona usuaris i visualitza totes les reserves per modificar-les o eliminar-les.
-  - **Professor (Usuari):** Reserva i gestiona les seves aules.
+  - **Professor (Usuari):** Reserva i gestiona les seves propies reserves.
 
 ## 3. Requeriments Tècnics
 Tecnologies utilitzades:
 - **Backend:** PHP.
-- **Frontend:** HTML5, CSS3, TypeScript/JavaScript.
+- **Frontend:** HTML5, CSS3, JavaScript.
 - **Base de dades:** MySQL.
 - **Servidor Web:** XAMPP (utilitzant Apache).
 - **Framework CSS:** Bootstrap (per al disseny de les interfícies).
@@ -55,6 +55,7 @@ El diagrama de classes representarà les entitats del sistema i les seves relaci
 - **Classe Usuari**: Representa els professors.
 - **Classe Reserva**: Representa les reserves de les aules.
 - **Classe Aula**: Representa les aules disponibles.
+
 <img src="public/Images/Diagrama_Classes.jpg" alt="Diagrama de Classes" width="700"/>
 
 ### 4.4 Diagrama BD (Base de Dades)
@@ -62,6 +63,7 @@ El diagrama de base de dades mostrarà les taules i les seves relacions:
 - **Usuaris**: ID, nom, correu, contrasenya, tipus d'usuari.
 - **Aules**: ID, nom de l'aula, capacitat.
 - **Reserves**: ID, usuari_id, aula_id, data_hora_inici, data_hora_fi.
+
 <img src="public/Images/Diagrama_BD.jpg" alt="Diagrama BD" width="700"/>
 
 ## 5. Disseny d'Interfícies
@@ -70,19 +72,12 @@ El disseny de les interfícies estarà dividit en dos vistes:
 - **Vista Administrador:** Permet gestionar els usuaris i revisar les reserves.
 
 
-
-
-
-
-
-
-
-## 11. Implementació
+## 6. Implementació
 La implementació del projecte es farà en dues parts principals:
 - **Backend**: Programació en PHP natiu per gestionar la lògica de les reserves, autenticar usuaris i gestionar les interaccions amb la base de dades.
-- **Frontend**: Desenvolupament de les interfícies en HTML, CSS (Bootstrap) i TypeScript/JavaScript per a la interactivitat de l'usuari.
+- **Frontend**: Desenvolupament de les interfícies en HTML, CSS (Bootstrap) i JavaScript per a la interactivitat de l'usuari.
 
-## 12. Proves Unitàries
+## 7. Proves Unitàries
 Detallar les proves realitzades per garantir que totes les funcionalitats crítiques funcionen correctament, com el login, la creació i eliminació de reserves.
 
 ## 13. Desplegament del Projecte
@@ -91,6 +86,7 @@ El projecte serà desplegat en un entorn real utilitzant **XAMPP** com a servido
 ## 14. Enllaços al Projecte
 Enllaços rellevants:
 - [Repositori a GitHub](#)
+- [Figma](https://www.figma.com/design/Jkx0EjVcZgEuze3JaOvoIn/Projecte_Final_DAW?node-id=0-1&t=1oRbSvlNBlDZpikC-1)
 
 ## 15. Propostes de Millora
 Reflexions sobre possibles millores:
