@@ -28,7 +28,7 @@
                     <td><?= htmlspecialchars($reserva['aula'], ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?= htmlspecialchars($reserva['grup'], ENT_QUOTES, 'UTF-8'); ?></td>
                     <td>  
-                      <button type="button" class="btn btn-primary modificar-btn" data-id="<?= $reserva['id']; ?>">Modificar</button>
+                      <button type="button" class="btn btn-primary modificar-btn" data-id="<?= $reserva['id']; ?>">Modificar</button> 
                     </td>
                   </tr>
                 <?php endforeach; ?>
@@ -39,8 +39,56 @@
               <?php endif; ?>
             </tbody>
           </table>
+          <!-- Contenedor para la paginación -->
+          <div id="pagination" class="d-flex justify-content-center mt-3"></div>
         </div>
       </form>
     </div>
   </div>
 </div>
+
+<!-- Script para paginación -->
+<script>
+  document.getElementById('veureReservaModal').addEventListener('shown.bs.modal', function () {
+    const rowsPerPage = 9;
+    const tableBody = document.getElementById("reservesTableBody");
+    const pagination = document.getElementById("pagination");
+
+    if (!pagination || !tableBody) return;
+
+    const allRows = Array.from(tableBody.querySelectorAll("tr"));
+    const totalPages = Math.ceil(allRows.length / rowsPerPage);
+    let currentPage = 1;
+
+    function showPage(page) {
+      currentPage = page;
+      tableBody.innerHTML = "";
+
+      const start = (page - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+
+      const visibleRows = allRows.slice(start, end);
+      visibleRows.forEach(row => tableBody.appendChild(row));
+
+      renderPagination();
+    }
+
+    function renderPagination() {
+      pagination.innerHTML = "";
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.classList.add("btn", "btn-sm", "btn-outline-primary", "mx-1");
+        btn.textContent = i;
+        if (i === currentPage) btn.classList.add("active");
+
+        btn.addEventListener("click", () => showPage(i));
+        pagination.appendChild(btn);
+      }
+    }
+
+    if (allRows.length > 0) {
+      showPage(1);
+    }
+  });
+</script>
