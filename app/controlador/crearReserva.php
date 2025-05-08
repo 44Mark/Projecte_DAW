@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../model/aules.php';
 
+// Colors per a les aules.
 $colorsAules = [
     'Aula A0' => '#e6194B',
     'Aula A1' => '#f3722c',
@@ -30,7 +31,7 @@ $colorsAules = [
     $grup  = $_POST['grup']  ?? '';
     $aula  = $_POST['aula']  ?? '';
 
-    // Asegurar que el prefijo "Aula " se maneje de manera consistente
+    // Asegurem que el prefixes 'Aula ' estigui present a l'aula.
     if (strpos($aula, 'Aula ') === false) {
         $aula = 'Aula ' . $aula;
     }
@@ -44,10 +45,10 @@ $colorsAules = [
 
     $reserves = [];
 
-    $id = $_POST['id'] ?? null; // Verificar si es una actualización
+    $id = $_POST['id'] ?? null; // Verificar si es una actualizació.
 
     if ($id) {
-        // Actualizar reserva existente
+        // Actualitzem la reserva existent
         $sql = "UPDATE kw_reserves SET motiu = :motiu, profe = :profe, grup = :grup, aula = :aula, data = :data, ini = :ini, fin = :fin, color = :color WHERE id = :id";
         $stmt = $connexio->prepare($sql);
         $stmt->execute([
@@ -79,26 +80,26 @@ $colorsAules = [
             continue;
         }
 
-        // Comprovem que la data sigui un dia laboral, per exemple, entre dilluns (1) i divendres (5)
-        $dayOfWeek = date('N', strtotime($data)); // 1 (dilluns) a 7 (diumenge)
+        // Comprovem que la data sigui un dia laboral, entre dilluns (1) i divendres (5).
+        $dayOfWeek = date('N', strtotime($data)); // 1 (dilluns) a 7 (diumenge).
         if ($dayOfWeek < 1 || $dayOfWeek > 5) {
             $errors[] = "Les reserves només es poden fer en dies laborables.";
             continue;
         }
 
-        // Convertir les hores de format "HH:MM" a minuts des de la mitjanit
+        // Convertir les hores de format "HH:MM" a minuts.
         $iniParts = explode(':', $ini);
         $finParts = explode(':', $fin);
         $iniMins = ((int)$iniParts[0]) * 60 + ((int)$iniParts[1]);
         $finMins = ((int)$finParts[0]) * 60 + ((int)$finParts[1]);
 
-        // Verificar límits d'horari (per exemple, entre les 08:00 i 21:30)
+        // Verificar límits d'horari (entre les 08:00 i 21:30).
         if ($iniMins < 480 || $finMins > 1290) {
             $errors[] = "Les reserves  s'han de fer entre les 8:00 i les 21:30.";
             continue;
         }
 
-        // Comprovar si hi ha conflicte en la mateixa aula
+        // Comprovar si hi ha conflicte en la mateixa aula.
         $conflictAula = comprovarReserva($connexio, $aula, $data, $iniMins, $finMins);
         if ($conflictAula !== false) {
             $conflicts[] = [
@@ -114,7 +115,7 @@ $colorsAules = [
             continue;
         }
 
-        // Comprovar si el professor ja té una reserva en aquest interval (en qualsevol aula)
+        // Comprovar si el professor ja té una reserva en aquest interval (en qualsevol aula).
         $conflictProfesor = comprovarReservaProfessor($connexio, $profe, $data, $iniMins, $finMins);
         if ($conflictProfesor !== false) {
             // Aquí recopilamos datos del conflicto
@@ -131,7 +132,7 @@ $colorsAules = [
             continue;
         }
         
-        // Comprovar si hi ha conflicte en la mateixa aula (també a kw_solucio)
+        // Comprovar si hi ha conflicte en la mateixa aula (també a kw_solucio).
         $conflictAulaSolucio = comprovarReservaSolucio($connexio, $aula, $data, $iniMins, $finMins);
         if ($conflictAulaSolucio !== false) {
             $conflicts[] = [
@@ -147,7 +148,7 @@ $colorsAules = [
             continue;
         }
 
-        // Comprovar si el professor ja té reserva a kw_solucio
+        // Comprovar si el professor ja té reserva a la taula kw_solucio.
         $conflictProfeSolucio = comprovarReservaProfessorSolucio($connexio, $profe, $data, $iniMins, $finMins);
         if ($conflictProfeSolucio !== false) {
             $conflicts[] = [
@@ -155,7 +156,7 @@ $colorsAules = [
                 'aula' => $aula,
                 'ini'  => $ini,
                 'fin'  => $fin,
-                'motiu' => 'Ja tens una reserva a kw_solucio aquest dia a l\'aula ' . $conflictProfeSolucio['aula'] .
+                'motiu' => 'Tens classe aquest dia a l\'aula ' . $conflictProfeSolucio['aula'] .
                         ' (de ' . sprintf('%02d:%02d', floor($conflictProfeSolucio['ini'] / 60), $conflictProfeSolucio['ini'] % 60) .
                         ' a ' . sprintf('%02d:%02d', floor($conflictProfeSolucio['fin'] / 60), $conflictProfeSolucio['fin'] % 60) . ')'
             ];
@@ -174,7 +175,7 @@ $colorsAules = [
             'hora_fi'  => $finMins
         ];
 
-        // Gestió de repeticions, si s'aplica
+        // Gestió de repeticions, si s'aplica.
         if (is_numeric($reps) && $reps > 0 && in_array($repetir, ['semanal', 'mensual'])) {
             $interval = $repetir === 'semanal' ? '+7 days' : '+28 days';
             $currentDate = $data;
@@ -220,14 +221,14 @@ $colorsAules = [
         exit;
     }
 
-    // Si hi ha errors, retornar-los
+    // Si hi ha errors, retornar-los.
     if (!empty($errors)) {
         header('Content-Type: application/json');
         echo json_encode(['success' => false, 'errors' => $errors]);
         exit;
     }
 
-    // Inserir totes les reserves sense conflictes
+    // Inserir totes les reserves sense conflictes.
     foreach ($reserves as $reserva) {
         // Assignar color segons l'aula, per defecte '#000000'
         $reserva['color'] = $colorsAules[$reserva['aula']] ?? '#000000';

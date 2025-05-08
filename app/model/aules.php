@@ -70,7 +70,7 @@ function obtenirHorarisClases($connexio) {
     }
 }
 
-// Funció per obtenir nomes les aules de la taula kw_aules
+// Funció per obtenir nomes les aules de la taula kw_aules.
 function obtenirAules($connexio) {
     try {
         $stmt = $connexio->prepare("SELECT nom FROM kw_aules WHERE mostrar = 1");
@@ -88,7 +88,7 @@ function obtenirAules($connexio) {
     }
 }
 
-// Funció per obtenir els grups de la taula kw_solucio
+// Funció per obtenir els grups de la taula kw_solucio.
 function agafarGrups($connexio) {
     try {
         $stmt = $connexio->prepare("SELECT DISTINCT grup FROM kw_solucio WHERE grup IS NOT NULL ORDER BY grup ASC");
@@ -106,7 +106,7 @@ function agafarGrups($connexio) {
     }
 }
 
-// Funció per obtenir les reserves de la taula reserves
+// Funció per obtenir les reserves de la taula reserves.
 function obtenirReserves($connexio) {
     $sql = "SELECT * FROM reserves";
     $resultat = $connexio->query($sql);
@@ -136,7 +136,7 @@ function obtenirReserves($connexio) {
 //     }
 // }
 
-// Funció per inserir una reserva a la base de dades
+// Funció per inserir una reserva a la base de dades.
 function insertReserva($connexio, $reserva) {
     try {
         $sql = "INSERT INTO kw_reserves 
@@ -163,7 +163,7 @@ function insertReserva($connexio, $reserva) {
     }
 }
 
-// Funció per actualitzar una reserva a la base de dades
+// Funció per actualitzar una reserva a la base de dades.
 function actualitzarReserva($connexio, $reserva) {
     try {
         $sql = "UPDATE kw_reserves 
@@ -190,10 +190,9 @@ function actualitzarReserva($connexio, $reserva) {
     }
 }
 
-// Funció per comprovar si ja existeix una reserva en una aula durant unes hores determinades a kw_reserves
+// Funció per comprovar si ja existeix una reserva en una aula durant unes hores determinades a kw_reserves.
 function comprovarReserva($connexio, $aula, $data, $hora_ini, $hora_fi) {
     try {
-        // Asegurar que el prefijo "Aula " se maneje de manera consistente en las verificaciones
         if (strpos($aula, 'Aula ') === false) {
             $aula = 'Aula ' . $aula;
         }
@@ -244,7 +243,7 @@ function comprovarReservaProfessor($connexio, $profe, $data, $hora_ini, $hora_fi
     }
 }
 
-// Funció per agafar les reserves del professor que ha iniciat la sessió
+// Funció per agafar les reserves del professor que ha iniciat la sessió.
 function agafarReserves($connexio, $profe) {
     try {
         $stmt = $connexio->prepare("SELECT * FROM kw_reserves WHERE UPPER(profe) = UPPER(:profe) ORDER BY data ASC");
@@ -256,7 +255,7 @@ function agafarReserves($connexio, $profe) {
     }
 }
 
-// Funció per eliminar una reserva
+// Funció per eliminar una reserva.
 function eliminarReserva($connexio, $id) {
     try {
         $stmt = $connexio->prepare("DELETE FROM kw_reserves WHERE id = :id");
@@ -268,9 +267,9 @@ function eliminarReserva($connexio, $id) {
     }
 }
 
+// Funció per comprovar si ja existeix una reserva en una aula durant unes hores determinades a kw_solucio.
 function comprovarReservaSolucio($connexio, $aula, $data, $hora_ini, $hora_fi) {
     try {
-        // Asegurar que el prefijo "Aula " se maneje de manera consistente en las verificaciones
         if (strpos($aula, 'Aula ') === false) {
             $aula = 'Aula ' . $aula;
         }
@@ -297,6 +296,7 @@ function comprovarReservaSolucio($connexio, $aula, $data, $hora_ini, $hora_fi) {
     }
 }
 
+// Funció per comprovar si el professor ja té una reserva en aquelles hores en una altre aula a kw_solucio.
 function comprovarReservaProfessorSolucio($connexio, $profe, $data, $hora_ini, $hora_fi) {
     try {
         $sql = "SELECT * FROM kw_solucio 

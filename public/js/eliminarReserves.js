@@ -1,6 +1,6 @@
-// Script per gestionar la modificació i eliminació de reserves
+// Script per gestionar l'eliminació de reserves.
 
-// Eliminar una reserva
+// Eliminar una reserva.
 document.addEventListener('click', function(e) {
     if (e.target.closest('.eliminar-btn')) {
       const id = e.target.closest('.eliminar-btn').dataset.id;
@@ -15,7 +15,7 @@ document.addEventListener('click', function(e) {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          // Recargar las reservas
+          // Recarregar la pàgina per mostrar els canvis.
           document.querySelector('#veureReservaModal').dispatchEvent(new Event('show.bs.modal'));
         } else {
           alert('Error: ' + data.message);

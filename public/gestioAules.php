@@ -2,6 +2,13 @@
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
+
+// Verificar si el usuario ha iniciado sesión con OAuth
+if (!isset($_SESSION['user'])) {
+    header('Location: calendari.php');
+    exit();
+}
+
 require_once __DIR__ . '../../app/controlador/llistatAules.php';
 
 $maxAulasPorColumna = 12;
@@ -21,6 +28,7 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <!-- Importació per adminsitrar les interaccions dels components de Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
   <!-- Importació de la llibreria de FullCalendar -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
   <!-- Importació de la llibreria de FullCalendar per a la traducció al català -->
@@ -29,7 +37,7 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
   <!-- jQuery Library per poder utilitzar el Toast-->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- Awesome per els logos -->
+  <!-- Font Awesome per els logos -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
   <!-- Toast CSS -->
@@ -37,10 +45,12 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
   <!-- Toast JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+  <!-- CSS -->
   <link rel="stylesheet" href="./css/estils.css">
   <link rel="stylesheet" href="./css/header_sidebar.css">
   <link rel="stylesheet" href="./css/fullcallendar.css">
 
+  <!-- JS -->
   <script src="./js/fullcalendar.js"></script>
   <script src="./js/aules.js"></script>
   <script src="./js/toast.js"></script>

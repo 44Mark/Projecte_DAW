@@ -1,21 +1,23 @@
+// Script encarregat de modificar les resreves pròpies.
+
 document.addEventListener('click', function(e) {
   if (e.target.closest('.modificar-btn')) {
-    e.preventDefault(); // Evitar recarga de la página
+    e.preventDefault();
 
     const id = e.target.closest('.modificar-btn').dataset.id;
 
-    // Cerrar el modal de listado de reservas propias si está abierto
+    // Tanquem el modal de llistat de reserves si està obert.
     const modalListado = bootstrap.Modal.getInstance(document.getElementById('veureReservaModal'));
     if (modalListado) {
       modalListado.hide();
     }
 
-    // Obtener datos de la reserva
+    // Obtenim les dades de la reserva a modificar.
     fetch(`/DAW/app/controlador/getReserva.php?id=${id}`)
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          // Cargar datos en el modal
+          // Carreguem les dades de la reserva al formulari del modal de creació de reserves.
           const form = document.getElementById('crearReservaForm');
           form.motivo.value = data.reserva.motiu;
           form.profe.value = data.reserva.profe;
@@ -25,7 +27,7 @@ document.addEventListener('click', function(e) {
           form.ini.value = data.reserva.ini;
           form.fin.value = data.reserva.fin;
 
-          // Añadir el ID de la reserva al formulario
+          // Afegim el valor de l'ID al formulari per identificar la reserva a modificar.
           let idInput = form.querySelector('input[name="id"]');
           if (!idInput) {
             idInput = document.createElement('input');
@@ -35,7 +37,7 @@ document.addEventListener('click', function(e) {
           }
           idInput.value = data.reserva.id;
 
-          // Mostrar el modal
+          // Mostrem el modal de creació de reserves amb les dades carregades.
           const modal = new bootstrap.Modal(document.getElementById('crearReservaModal'));
           modal.show();
         } else {

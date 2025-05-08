@@ -134,3 +134,23 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+  const horaInici = document.querySelector('input[name="ini"]');
+  const horaFi = document.querySelector('input[name="fin"]');
+
+  horaInici.addEventListener('change', function () {
+    if (horaFi.value && horaInici.value > horaFi.value) {
+      horaFi.value = '';
+      toastr.error('L\'hora d\'inici no pot ser després de l\'hora de fi.');
+    }
+    horaFi.min = horaInici.value;
+  });
+
+  horaFi.addEventListener('change', function () {
+    if (horaInici.value && horaFi.value < horaInici.value) {
+      horaFi.value = '';
+      toastr.error('L\'hora de fi no pot ser abans de l\'hora d\'inici.');
+    }
+    horaInici.max = horaFi.value;
+  });
+});

@@ -1,8 +1,9 @@
-// Script per a inicialitzar el calendari de FullCalendar
+// Script per a inicialitzar el calendari de FullCalendar.
 
 document.addEventListener('DOMContentLoaded', function () {
   var fullcalendar = document.getElementById('calendar');
 
+  // Inicialització del calendari amb les configuracions desitjades.
   var calendar = new FullCalendar.Calendar(fullcalendar, {
     locale: 'ca',
     firstDay: 1,
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
       day: 'Dia'
     },
 
+    // Botó per crear reserves i veure reserves.
     customButtons: {
       botoCrearReserva: {
         text: '',
@@ -41,12 +43,14 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     },
 
+    // Barra d'eines del calendari
     headerToolbar: {
       left: 'prev next today',
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay botoCrearReserva botoVeureReserva'
     },
 
+    // Agafem les reserves que hi ha a la base de dades.
     events: {
       url: '../app/controlador/getHorarisFixes.php',
       method: 'GET',
@@ -55,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     },
 
-    // Color de fons segons el color associat a l'aula
+    // Color de fons segons el color associat a l'aula.
     eventDidMount: function(info) {
       const color = info.event.extendedProps.color;
 
@@ -68,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     },
 
-    // Mostrar detalls al fer clic en un esdeveniment
+    // Mostrar detalls al fer clic en un esdeveniment amb un petit modal.
     eventClick: function (info) {
       const props = info.event.extendedProps;
       const start = info.event.start.toLocaleString();
@@ -87,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
       modal.show();
     },
 
-    // Filtratge de visibilitat per aula (preferides)
+    // Filtratge de visibilitat per les aules preferides.
     eventsSet: function () {
       setTimeout(function () {
         if (window.filterCalendarEvents) {
@@ -100,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
   calendar.render();
   window.myCalendar = calendar;
 
-  // Personalització dels botons després de renderitzar el calendari
+  // Personalització dels botons després de renderitzar el calendari.
   setTimeout(() => {
     const btnCrear = document.querySelector('.fc-botoCrearReserva-button');
     if (btnCrear) {

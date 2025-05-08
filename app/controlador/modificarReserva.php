@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../model/aules.php';
 
+// Colors per a les aules.
 $colorsAules = [
     'Aula A0' => '#e6194B',
     'Aula A1' => '#f3722c',
@@ -32,11 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ini   = $_POST['ini'] ?? '';
     $fin   = $_POST['fin'] ?? '';
 
-    // Asegurar que el prefijo "Aula " se maneje de manera consistente
+    // Asegurem que el prefixes 'Aula ' estigui present a l'aula.
     if (strpos($aula, 'Aula ') === false) {
         $aula = 'Aula ' . $aula;
     }
-
+    
     if (!$id || empty($data) || empty($ini) || empty($fin)) {
         $errors[] = "Falta omplir dades en algun camp.";
     } else {

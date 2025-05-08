@@ -15,25 +15,25 @@ document.addEventListener('DOMContentLoaded', function() {
       const aulaEvento = evt.extendedProps.aula || '';
       const aulaNormalizada = aulaEvento.replace(/^Aula\s+/i, '');
 
-      // Establim el valor de display en funció de si l'aula és preferida o no
+      // Establim el valor de display en funció de si l'aula és preferida o no.
       let desiredDisplay = 'none';
       if (aulasPreferides.length > 0 && aulasPreferides.includes(aulaNormalizada)) {
         desiredDisplay = 'auto';
       }
 
-      // Ajustem la visibilitat de l'esdeveniment
+      // Ajustem la visibilitat de l'esdeveniment.
       if (evt.display !== desiredDisplay) {
         evt.setProp('display', desiredDisplay);
       }
     });
   }
 
-  // Inicialitzem les icones de visibilitat (toggle) per a cada aula
+  // Inicialitzem les icones de visibilitat (toggle) per a cada aula.
   document.querySelectorAll('.toggle-icon').forEach(function(icon) {
     const aulaId = icon.getAttribute('data-aula');
     const aulaNormalizada = aulaId.replace(/^Aula\s+/i, '');
 
-    // Assignem l'estat inicial del toggle segons si l'aula està a la llista de preferides
+    // Assignem l'estat inicial del toggle segons si l'aula està a la llista de preferides.
     if (aulasPreferides.includes(aulaNormalizada)) {
       icon.classList.remove('bi-eye-slash');
       icon.classList.add('bi-eye');
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
       icon.parentElement.classList.remove('visible');
     }
 
-    // Afegim l’esdeveniment de clic per canviar la visibilitat de l’aula
+    // Afegim l’esdeveniment de clic per canviar la visibilitat de l’aula.
     icon.addEventListener('click', function() {
       if (icon.dataset.state === 'closed') {
         icon.classList.remove('bi-eye-slash');
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       localStorage.setItem('aulasPreferides', JSON.stringify(aulasPreferides));
 
-      // Actualitzem la visibilitat dels esdeveniments aplicant el filtre actualitzat
+      // Actualitzem la visibilitat dels esdeveniments aplicant el filtre actualitzat.
       window.filterCalendarEvents();
     });
   });

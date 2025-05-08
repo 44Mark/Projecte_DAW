@@ -21,9 +21,9 @@ main h1 {
   margin-top: 80px !important;
 }
 
-/* Asegurar que los toasts estén por encima del modal */
+
 .toast {
-    z-index: 1056; /* Los modales suelen tener un z-index de 1055 */
+    z-index: 1056;
 }
 
 .toast-bottom-center {

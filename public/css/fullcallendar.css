@@ -2,17 +2,17 @@
     width: 90%;
     max-width: 900px;
     height: 550px;
-    margin: 20px auto 0 120px; /* Cambiado de 150px a 100px */
+    margin: 20px auto 0 120px;
   }
   
-/* Canvi de color de les aules que estan desmarcades*/
+
   .visible {
     color: #ffffff;
     background-color: #2c3e50;
     border: 1px solid #1a252f;
   }
 
-/* Si el text de l'event es massa llarg, es talla i es posa ... */
+
   .fc-daygrid-event .fc-event-main {
     white-space: nowrap !important;
     overflow: hidden;
@@ -23,7 +23,7 @@
 
   .fc .fc-col-header-cell a {
     text-decoration: none !important;
-    color: #000 !important; /* o el color que tú prefieras */
+    color: #000 !important;
     pointer-events: none;
     cursor: default;
     text-transform: uppercase;
@@ -31,17 +31,17 @@
 
   .fc .fc-daygrid-day-number {
     text-decoration: none !important;
-    color: #000 !important;  /* cambia el color si quieres */
-    pointer-events: none;    /* opcional: evita que sea clicable */
+    color: #000 !important;
+    pointer-events: none;
     cursor: default;
   }
 
-/* Oculta la hora que pone por defecto el evento de FullCalendar */
+
 .fc-daygrid-event .fc-event-time {
   display: none;
 }
 
-/* También oculta la hora del evento */
+
 .fc-timegrid-event .fc-event-time {
   display: none !important;
 }

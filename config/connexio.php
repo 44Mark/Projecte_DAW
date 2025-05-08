@@ -4,7 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
-// Asignar las variables de conexión a partir de las variables de entorno
+// Variables d'entorn per a la connexió a la base de dades.
 $host   = $_ENV['DB_HOST'];
 $dbname = $_ENV['DB_NAME'];
 $user   = $_ENV['DB_USER'];

@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
           // Resetejem el formulari.
           form.reset();
 
-          // 🔄 Actualitzar els esdeveniments del calendari
+          // Actualitzar els esdeveniments del calendari
           if (window.myCalendar) {
             window.myCalendar.refetchEvents();
           }
