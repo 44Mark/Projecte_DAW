@@ -49,21 +49,23 @@ $colorsAules = [
 
     if ($id) {
         // Actualitzem la reserva existent
-        $sql = "UPDATE kw_reserves SET motiu = :motiu, profe = :profe, grup = :grup, aula = :aula, data = :data, ini = :ini, fin = :fin, color = :color WHERE id = :id";
-        $stmt = $connexio->prepare($sql);
-        $stmt->execute([
-            ':motiu' => $motiu,
-            ':profe' => $profe,
-            ':grup' => $grup,
-            ':aula' => $aula,
-            ':data' => $dates[0] ?? '',
-            ':ini' => $inis[0] ? ((int)explode(':', $inis[0])[0]) * 60 + ((int)explode(':', $inis[0])[1]) : 0,
-            ':fin' => $fins[0] ? ((int)explode(':', $fins[0])[0]) * 60 + ((int)explode(':', $fins[0])[1]) : 0,
-            ':color' => $colorsAules[$aula] ?? '#000000',
-            ':id' => $id
-        ]);
+        $reserva = [
+            'motiu' => $motiu,
+            'profe' => $profe,
+            'grup' => $grup,
+            'aula' => $aula,
+            'data' => $dates[0] ?? '',
+            'hora_ini' => $inis[0] ? ((int)explode(':', $inis[0])[0]) * 60 + ((int)explode(':', $inis[0])[1]) : 0,
+            'hora_fi' => $fins[0] ? ((int)explode(':', $fins[0])[0]) * 60 + ((int)explode(':', $fins[0])[1]) : 0,
+            'color' => $colorsAules[$aula] ?? '#000000',
+            'id' => $id
+        ];
 
-        echo json_encode(['success' => true, 'message' => 'Reserva actualitzada correctament.']);
+        if (actualitzarReserva($connexio, $reserva)) {
+            echo json_encode(['success' => true, 'message' => 'Reserva actualitzada correctament.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Error en actualitzar la reserva.']);
+        }
         exit;
     }
 

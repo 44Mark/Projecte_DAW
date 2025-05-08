@@ -12,9 +12,8 @@ if (!$id) {
 }
 
 try {
-    $stmt = $connexio->prepare("SELECT * FROM kw_reserves WHERE id = :id");
-    $stmt->execute([':id' => $id]);
-    $reserva = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Obtenim la reserva utilitzant la funció del model.
+    $reserva = obtenirReservaPerId($connexio, $id);
 
     if ($reserva) {
         // Convertir las horas de minutos a formato legible.

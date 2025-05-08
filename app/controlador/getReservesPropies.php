@@ -5,6 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 // Indiquem que la resposta és en format JSON.
 require_once __DIR__ . '/../model/aules.php';
+require_once __DIR__ . '/../model/usuari.php';
 
 // Obtenim el correu de l'usuari autenticat.
 $email = $_SESSION['user']['email'] ?? null;
@@ -18,8 +19,11 @@ if (!$email) {
 // Extreiem la part abans de l'@ i la convertim en majúscules.
 $profe = strtoupper(explode('@', $email)[0]);
 
-// Agafem les reserves de l'usuari.
-$reserves = agafarReserves($connexio, $profe);
+// Obtenim si l'usuari és administrador.
+$isAdmin = esAdmin($connexio, $email);
+
+// Agafem les reserves de l'usuari o totes si és administrador.
+$reserves = agafarReserves($connexio, $profe, $isAdmin);
 
 if ($reserves) {
     // Convertir las horas de segundos a formato legible.

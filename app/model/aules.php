@@ -244,10 +244,17 @@ function comprovarReservaProfessor($connexio, $profe, $data, $hora_ini, $hora_fi
 }
 
 // Funció per agafar les reserves del professor que ha iniciat la sessió.
-function agafarReserves($connexio, $profe) {
+function agafarReserves($connexio, $profe, $isAdmin) {
     try {
-        $stmt = $connexio->prepare("SELECT * FROM kw_reserves WHERE UPPER(profe) = UPPER(:profe) ORDER BY data ASC");
-        $stmt->execute([':profe' => $profe]);
+        if ($isAdmin) {
+            // Si el usuario es administrador, devolver todas las reservas
+            $stmt = $connexio->prepare("SELECT * FROM kw_reserves ORDER BY data ASC");
+            $stmt->execute();
+        } else {
+            // Si no es administrador, devolver solo las reservas propias
+            $stmt = $connexio->prepare("SELECT * FROM kw_reserves WHERE UPPER(profe) = UPPER(:profe) ORDER BY data ASC");
+            $stmt->execute([':profe' => $profe]);
+        }
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
         error_log("Error en agafarReserves: " . $e->getMessage());
@@ -318,6 +325,18 @@ function comprovarReservaProfessorSolucio($connexio, $profe, $data, $hora_ini, $
         return $conflict ? $conflict : false;
     } catch (Exception $e) {
         error_log("Error en comprovarReservaProfessorSolucio: " . $e->getMessage());
+        return false;
+    }
+}
+
+// Funció per obtenir una reserva específica per ID.
+function obtenirReservaPerId($connexio, $id) {
+    try {
+        $stmt = $connexio->prepare("SELECT * FROM kw_reserves WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        error_log("Error en obtenirReservaPerId: " . $e->getMessage());
         return false;
     }
 }
