@@ -57,6 +57,15 @@ $files = array_chunk($aulas, $maxAulasPorColumna);
   <script src="./js/modalVeureReserves.js"></script>
   <script src="./js/eliminarReserves.js"></script>
   <script src="./js/modificarReserves.js"></script>
+
+  <script>
+    document.addEventListener('hidden.bs.modal', function () {
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
+    });
+  </script>
 </head>
 <body>
 

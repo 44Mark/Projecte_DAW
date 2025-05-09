@@ -76,9 +76,18 @@ document.addEventListener('click', function(e) {
           }
           idInput.value = data.reserva.id;
 
-          // Mostrem el modal de creació de reserva amb les dades carregades.s
+          // Mostrem el modal de creació de reserva amb les dades carregades.
           const modal = new bootstrap.Modal(document.getElementById('crearReservaModal'));
           modal.show();
+
+          // Assegurem que el backdrop desaparegui quan es tanqui el modal.
+          const modalElement = document.getElementById('crearReservaModal');
+          modalElement.addEventListener('hidden.bs.modal', () => {
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+              backdrop.remove();
+            }
+          });
         } else {
           toastr.error('No s\'han pogut carregar les dades de la reserva.');
         }
